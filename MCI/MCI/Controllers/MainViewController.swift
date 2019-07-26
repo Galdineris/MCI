@@ -9,7 +9,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
+    let bottomSheetVC = ScrollableBottomSheetViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,8 +23,6 @@ class MainViewController: UIViewController {
     }
     
     func addBottomSheetView(){
-        let bottomSheetVC = BottomSheetViewController()
-        
         self.addChild(bottomSheetVC)
         self.view.addSubview(bottomSheetVC.view)
         bottomSheetVC.didMove(toParent: self)

@@ -1,13 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScrollableBottomSheetViewController" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScrollableBottomSheetViewController" customModule="MCI" customModuleProvider="target">
             <connections>
+                <outlet property="headerView" destination="LLw-xs-HFy" id="6XF-GP-LWw"/>
+                <outlet property="searchContainer" destination="I4T-nK-d8T" id="EqU-LF-05I"/>
+                <outlet property="tableView" destination="Ucd-LV-kxA" id="Ca9-al-FLx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,8 +22,43 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QoZ-a6-0RI">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-xs-HFy" userLabel="Header View">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4T-nK-d8T" userLabel="searchContainer">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="P0H-9H-ruI"/>
+                                <constraint firstAttribute="bottom" secondItem="I4T-nK-d8T" secondAttribute="bottom" id="YVS-HE-PnB"/>
+                                <constraint firstAttribute="trailing" secondItem="I4T-nK-d8T" secondAttribute="trailing" priority="250" id="Ztw-yf-iSA"/>
+                                <constraint firstItem="I4T-nK-d8T" firstAttribute="leading" secondItem="LLw-xs-HFy" secondAttribute="leading" id="cee-dU-qnH"/>
+                                <constraint firstItem="I4T-nK-d8T" firstAttribute="top" secondItem="LLw-xs-HFy" secondAttribute="top" id="ulE-X0-Jtn"/>
+                            </constraints>
+                        </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ucd-LV-kxA">
+                            <rect key="frame" x="0.0" y="55" width="375" height="612"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </tableView>
+                    </subviews>
+                </stackView>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="QoZ-a6-0RI" secondAttribute="bottom" id="8c0-gG-KQr"/>
+                <constraint firstItem="QoZ-a6-0RI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fX6-Ub-nfb"/>
+                <constraint firstItem="QoZ-a6-0RI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="htQ-EW-8XG"/>
+                <constraint firstAttribute="trailing" secondItem="QoZ-a6-0RI" secondAttribute="trailing" id="qJP-fL-58g"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="153.34821428571428"/>
         </view>
     </objects>
 </document>
