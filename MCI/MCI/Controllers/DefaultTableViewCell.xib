@@ -12,18 +12,26 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="DefaultTableViewCell" customModule="MCI" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="DefaultTableViewCell" customModule="MCI" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfJ-Ls-fhS" userLabel="Separator">
+                        <rect key="frame" x="62" y="42.5" width="258" height="1"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="sYz-6X-CDH"/>
+                        </constraints>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFL-zH-kpg">
                         <rect key="frame" x="0.0" y="10" width="310" height="23.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Jp-xY-QCY">
                                 <rect key="frame" x="62" y="0.0" width="248" height="23.5"/>
+                                <color key="tintColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
                                 <string key="text">The San Francisco typeface was designed to be highly legible at both small and large sizes. Dynamic Type provides additional flexibility by letting readers choose their preferred text size. Download a dynamic type size table in Resources.</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -32,7 +40,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wsp-Xe-Wbh">
                                 <rect key="frame" x="0.0" y="0.0" width="46" height="23.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GyW-13-CX4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="GyW-13-CX4">
                                         <rect key="frame" x="0.0" y="0.0" width="46" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -63,11 +71,15 @@
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="KFL-zH-kpg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="3tv-MX-tlc"/>
+                    <constraint firstAttribute="trailing" secondItem="NfJ-Ls-fhS" secondAttribute="trailing" id="6yE-wk-GHQ"/>
+                    <constraint firstAttribute="bottom" secondItem="NfJ-Ls-fhS" secondAttribute="bottom" id="VZ6-AD-BQm"/>
                     <constraint firstAttribute="bottom" secondItem="KFL-zH-kpg" secondAttribute="bottom" constant="10" id="Ytl-sj-Bpv"/>
                     <constraint firstItem="KFL-zH-kpg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="fBy-uc-fqD"/>
+                    <constraint firstItem="NfJ-Ls-fhS" firstAttribute="width" secondItem="4Jp-xY-QCY" secondAttribute="width" constant="10" id="oDU-yS-Jhq"/>
                     <constraint firstAttribute="trailing" secondItem="KFL-zH-kpg" secondAttribute="trailing" constant="10" id="oKA-0o-eTl"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="tintColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="numberLabel" destination="GyW-13-CX4" id="7dx-XR-Iv9"/>

@@ -12,20 +12,21 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     @IBOutlet weak var searchContainer: UIView!
     
-    @IBOutlet weak var headerView: UIView!
-    
     @IBOutlet weak var tableView: UITableView!
     
-    let searchController = SearchViewController(searchResultsController: nil)
+    @IBOutlet var footerButtons: [UIButton]!
     
+    @IBOutlet weak var tableFooterView: UIView!
+    
+    var searchController = UISearchController(searchResultsController: nil)
     let fullView: CGFloat = 100
     var partialView: CGFloat{
         guard let safeAreaBottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else {return 0}
-        return UIScreen.main.bounds.height - (55 + safeAreaBottom)
+        return UIScreen.main.bounds.height -  (55 + safeAreaBottom)
     }
     var keyboardHeight: CGFloat = 200
-    
     var filteredItens: [String] = []
+    var selectedItens: [String] = []
     
     
     
@@ -34,6 +35,7 @@ class ScrollableBottomSheetViewController: UIViewController{
         
         setUpTableView()
         setUpSearchController()
+        setUpButtons()
         definesPresentationContext = false
         
         NotificationCenter.default.addObserver(
@@ -55,7 +57,7 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        closeSheet()
+        changeSheetState(SheetStates.closed)
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,23 +86,18 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredItens = ["1" , "Written in diary form, it tells the tale of an unhappy, passionate young man hopelessly in love with Charlotte, the wife of a friend - a man who he alternately admires and detests." , "3" , "Maria"]//candies.filter({( candy : Candy) -> Bool in
-//            return candy.name.lowercased().contains(searchText.lowercased())
+        
+        filteredItens = ["1" , "Written in diary form, it tells the tale of an unhappy, passionate young man hopelessly in love with Charlotte, the wife of a friend - a man who he alternately admires and detests." , "3" , "Maria"]
+//            dataArray.filter({ (country) -> Bool in
+//            let countryText: NSString = country
+//
+//            return (countryText.rangeOfString(searchString, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
 //        })
-
         tableView.reloadData()
     }
     
     
     
-    
-    
-    
-    @IBAction func addButtonTap(_ sender: Any) {
-        let novoItem:String = "not yet"//getSearchString()
-        print("\(novoItem) Adicionado a sua lista")
-        
-        }
     
     @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
         if !searchController.isActive{
@@ -148,38 +145,42 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     
-    func closeSheet(){
+    enum SheetStates: Int{
+        case open = 0
+        case halfOpen = 1
+        case closed = 2
+    }
+    func changeSheetState(_ states: SheetStates){
         UIView.animate(withDuration: 0.6, animations: { [weak self] in
             guard let unwrapedSelf = self else {return}
             let frame = unwrapedSelf.view.frame
-            let yComponent = unwrapedSelf.partialView
+            var yComponent: CGFloat = 0
+            switch states {
+            case .open:
+                yComponent = unwrapedSelf.fullView
+            case .halfOpen:
+                yComponent = frame.height - (unwrapedSelf.keyboardHeight + 55)
+            default:
+                yComponent = unwrapedSelf.partialView
+            }
             unwrapedSelf.view.frame = CGRect(x: 0,
                                              y: yComponent,
                                              width: frame.width,
                                              height: frame.height)
-            }, completion: { [weak self] _ in
-                guard let unwrapedSelf = self else {return}
-                unwrapedSelf.headerView.isUserInteractionEnabled = true
         })
     }
     
-    func halfOpenSheet(){
-        UIView.animate(withDuration: 0.6, animations: { [weak self] in
-            guard let unwrapedSelf = self else {return}
-            let frame = unwrapedSelf.view.frame
-            let yComponent = frame.height - (unwrapedSelf.keyboardHeight + 50)
-            unwrapedSelf.view.frame = CGRect(x: 0,
-                                             y: yComponent,
-                                             width: frame.width,
-                                             height: frame.height)
-            }, completion: { [weak self] _ in
-                guard let unwrapedSelf = self else {return}
-                unwrapedSelf.headerView.isUserInteractionEnabled = true
-        })
+    @IBAction func addButton(_ sender: Any) {
+        
     }
     
+    @IBAction func removeButton(_ sender: Any) {
+        
+    }
     
-    
+    @IBAction func updateButton(_ sender: Any) {
+        
+    }
     
     
     func prepareBackgroundView(){
@@ -196,21 +197,43 @@ class ScrollableBottomSheetViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "DefaultTableViewCell", bundle: nil), forCellReuseIdentifier: "default")
+        tableView.tableFooterView = tableFooterView
+        
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.allowsMultipleSelection = true
         tableView.estimatedRowHeight = 80
+        
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .black
     }
     
     func setUpSearchController(){
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Busque ou Adicione um Item"
-        searchController.searchBar.sizeToFit()
-        searchContainer.addSubview(searchController.searchBar)
+        
+        let scb = searchController.searchBar
+        scb.barStyle = .blackOpaque
+        scb.tintColor = UIColor.orange
+        if let textfield = scb.value(forKey: "searchField") as? UITextField {
+            textfield.textColor = UIColor.white
+            if let backgroundview = textfield.subviews.first {
+                backgroundview.layer.cornerRadius = 10
+                backgroundview.clipsToBounds = true
+
+            }
+        }
+        scb.sizeToFit()
+        searchContainer.addSubview(scb)
     }
     
+    func setUpButtons(){
+        for i in footerButtons{
+            i.layer.cornerRadius = i.frame.height/2
+            i.clipsToBounds = true
+        }
+    }
 }
-
-    
 
 
 
@@ -227,7 +250,7 @@ extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewD
         if isFiltering() {
             return filteredItens.count
         }
-        return 1
+        return 30
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -246,11 +269,33 @@ extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewD
         cell.thingLabel.text = Item
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? DefaultTableViewCell else {return}
+        let cellText = cell.thingLabel.text ?? ""
+        if !selectedItens.isEmpty{
+            if selectedItens.contains(cellText){
+                selectedItens.remove(at: selectedItens.firstIndex(of: cellText) ?? 0)
+            }else{
+                tableView.deselectRow(at: indexPath, animated: false)
+            }
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        guard let indexPaths = tableView.indexPathsForSelectedRows else {return}
+//        if indexPaths.isEmpty{ hideAllButtons(); return}
+//        if indexPaths.count <= 1{
+//            hideAllButtons()
+//            showSingleSelectButtons()
+//        }
+    }
 }
 
+
+
 extension ScrollableBottomSheetViewController: UIGestureRecognizerDelegate {
-    
-    // Solution
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         let gesture = (gestureRecognizer as! UIPanGestureRecognizer)
         let direction = gesture.velocity(in: view).y
@@ -264,16 +309,20 @@ extension ScrollableBottomSheetViewController: UIGestureRecognizerDelegate {
         
         return false
     }
-    
 }
 
 extension ScrollableBottomSheetViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
-        if (view.frame.minY == partialView) {
-            halfOpenSheet()
-        }
-        filterContentForSearchText(searchController.searchBar.text!)
+        guard let searchString = searchController.searchBar.text else {return}
+        filterContentForSearchText(searchString)
     }
-    
-    
+}
+
+extension ScrollableBottomSheetViewController: UISearchBarDelegate{
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        changeSheetState(SheetStates.halfOpen)
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.searchBar.resignFirstResponder()
+    }
 }
