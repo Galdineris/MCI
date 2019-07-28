@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ScrollableBottomSheetViewController: UIViewController{
     
@@ -25,8 +26,9 @@ class ScrollableBottomSheetViewController: UIViewController{
         return UIScreen.main.bounds.height -  (55 + safeAreaBottom)
     }
     var keyboardHeight: CGFloat = 200
-    var filteredItens: [String] = []
-    var selectedItens: [String] = []
+    var filteredItems: [Item] = []
+    var selectedItems: [Item] = []
+    var items: [Item] = []
     
     
     
@@ -36,6 +38,7 @@ class ScrollableBottomSheetViewController: UIViewController{
         setUpTableView()
         setUpSearchController()
         setUpButtons()
+        changeButtons([], [.add,.remove,.update])
         definesPresentationContext = false
         
         NotificationCenter.default.addObserver(
@@ -53,6 +56,23 @@ class ScrollableBottomSheetViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareBackgroundView()
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Item")
+        
+        do {
+            items = try managedContext.fetch(fetchRequest) as! [Item]
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,12 +107,10 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         
-        filteredItens = ["1" , "Written in diary form, it tells the tale of an unhappy, passionate young man hopelessly in love with Charlotte, the wife of a friend - a man who he alternately admires and detests." , "3" , "Maria"]
-//            dataArray.filter({ (country) -> Bool in
-//            let countryText: NSString = country
-//
-//            return (countryText.rangeOfString(searchString, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
-//        })
+        filteredItems = items.filter({ (item: Item) -> Bool in
+            guard let itemDescription: String = item.thing else {return false}
+            return itemDescription.lowercased().contains(searchText.lowercased())
+        })
         tableView.reloadData()
     }
     
@@ -150,12 +168,12 @@ class ScrollableBottomSheetViewController: UIViewController{
         case halfOpen = 1
         case closed = 2
     }
-    func changeSheetState(_ states: SheetStates){
+    func changeSheetState(_ state: SheetStates){
         UIView.animate(withDuration: 0.6, animations: { [weak self] in
             guard let unwrapedSelf = self else {return}
             let frame = unwrapedSelf.view.frame
             var yComponent: CGFloat = 0
-            switch states {
+            switch state {
             case .open:
                 yComponent = unwrapedSelf.fullView
             case .halfOpen:
@@ -170,18 +188,200 @@ class ScrollableBottomSheetViewController: UIViewController{
         })
     }
     
+    enum ButtonStates: Int{
+        case add = 1
+        case remove = 0
+        case update = 2
+    }
+    func changeButtons(_ on: [ButtonStates]?, _ off: [ButtonStates]?){
+        guard let buttons = footerButtons else {return}
+        if let on = on{
+            for i in on{
+                buttons[i.rawValue].isHidden = false
+                UIView.animate(withDuration: 0.5, animations: {
+                    buttons[i.rawValue].alpha = 1.0
+                })
+            }
+        }
+        if let off = off{
+            for i in off{
+                UIView.animate(withDuration: 0.5,
+                               animations: {
+                    buttons[i.rawValue].alpha = 0.0
+                    },
+                               completion: { (true) in
+                        buttons[i.rawValue].isHidden = true
+                })
+            }
+        }
+    }
+
+    
     @IBAction func addButton(_ sender: Any) {
-        
+        guard let newItemDescription = searchController.searchBar.text else {return}
+        saveItem(description: newItemDescription)
+        tableView.reloadData()
+        changeButtons([], [.add,.remove,.update])
+        searchController.isActive = false
     }
     
     @IBAction func removeButton(_ sender: Any) {
-        
+        for i in selectedItems{
+            deleteItem(target: i)
+        }
+        tableView.reloadData()
+        changeButtons([], [.add,.remove,.update])
+        searchController.isActive = false
     }
     
     @IBAction func updateButton(_ sender: Any) {
         
     }
     
+    func saveItem(description: String) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let itemEntity =
+            NSEntityDescription.entity(forEntityName: "Item",
+                                       in: managedContext)!
+        
+        let item = NSManagedObject(entity: itemEntity,
+                                     insertInto: managedContext)
+        
+        item.setValue(description, forKeyPath: "thing")
+        
+        do {
+            try managedContext.save()
+            items.append(item as! Item)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func retrieveData() {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "index", ascending: false)]
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            for data in result as! [NSManagedObject] {
+                items.append(data as! Item)
+            }
+            
+        } catch let error as NSError{
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func updateItem(thing: String, target: Item){
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Item")
+        fetchRequest.predicate = NSPredicate(format: "index = %d", target.index)
+        do
+        {
+            let itemToChange = try managedContext.fetch(fetchRequest)
+            
+            let objectUpdate = itemToChange[0] as! NSManagedObject
+            objectUpdate.setValue(thing, forKey: "thing")
+            do{
+                try managedContext.save()
+            }
+            catch let error as NSError
+            {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+        catch let error as NSError
+        {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func deleteItem(target: Item){
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Item")
+        fetchRequest.predicate = NSPredicate(format: "index = %d", target.index)
+        do
+        {
+            let ItemToDelete = try managedContext.fetch(fetchRequest)
+            
+            let objectToDelete = ItemToDelete[0] as! NSManagedObject
+            managedContext.delete(objectToDelete)
+            updateIndices()
+            do{
+                try managedContext.save()
+            }
+            catch let error as NSError
+            {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+        catch let error as NSError
+        {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func updateIndices(){
+        
+        var newIndex: Int16 = 1
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "index", ascending: false)]
+        do
+        {
+            let itemsToChange = try managedContext.fetch(fetchRequest)
+            for i in itemsToChange{
+                let objectUpdate = i as! NSManagedObject
+                objectUpdate.setValue(newIndex, forKey: "index")
+                do{
+                    try managedContext.save()
+                }
+                catch let error as NSError
+                {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+                newIndex += 1
+            }
+        }
+        catch let error as NSError
+        {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func checkDuplicate(text: String) -> Bool{
+        for i in items{
+            if ((i.thing?.compare(text)) != nil){
+                return true
+            }
+        }
+        return false
+    }
     
     func prepareBackgroundView(){
         let blurEffect = UIBlurEffect.init(style: .dark)
@@ -194,10 +394,11 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     func setUpTableView(){
+        retrieveData()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "DefaultTableViewCell", bundle: nil), forCellReuseIdentifier: "default")
-        tableView.tableFooterView = tableFooterView
+        tableView.tableFooterView = self.tableFooterView
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsMultipleSelection = true
@@ -233,6 +434,7 @@ class ScrollableBottomSheetViewController: UIViewController{
             i.clipsToBounds = true
         }
     }
+    
 }
 
 
@@ -248,48 +450,76 @@ extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            return filteredItens.count
+            return filteredItems.count
         }
-        return 30
+        return items.count > 0 ? items.count : 1
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 44
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "default") as? DefaultTableViewCell else {
             return UITableViewCell(style: .default, reuseIdentifier: nil)
         }
+        if items.isEmpty{
+            return UITableViewCell(style: .default, reuseIdentifier: nil)
+        }
+        var item: Item
         
-        let Item: String
         if isFiltering() {
-            Item = filteredItens[indexPath.row]
+            item = filteredItems[indexPath.row]
         } else {
-            Item = "Written in diary form, it tells the tale of an unhappy, passionate young man hopelessly in love with Charlotte, the wife of a friend - a man who he alternately admires and detests."
+            item = items[indexPath.row]
         }
         
-        cell.numberLabel.text = String(indexPath.row + 1)
-        cell.thingLabel.text = Item
+        cell.numberLabel.text = String(item.index)
+        cell.thingLabel.text = item.thing
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? DefaultTableViewCell else {return}
-        let cellText = cell.thingLabel.text ?? ""
-        if !selectedItens.isEmpty{
-            if selectedItens.contains(cellText){
-                selectedItens.remove(at: selectedItens.firstIndex(of: cellText) ?? 0)
-            }else{
-                tableView.deselectRow(at: indexPath, animated: false)
-            }
+        var item: Item
+        if isFiltering() {
+            item = filteredItems[indexPath.row]
+        } else {
+            item = items[indexPath.row]
+        }
+        if selectedItems.isEmpty || !selectedItems.contains(item){
+            selectedItems.append(item)
+        }else{
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+        switch selectedItems.count {
+        case 0:
+            changeButtons([], [.add,.update,.remove])
+        default:
+            changeButtons([.remove], [.add,.update])
         }
     }
     
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        guard let indexPaths = tableView.indexPathsForSelectedRows else {return}
-//        if indexPaths.isEmpty{ hideAllButtons(); return}
-//        if indexPaths.count <= 1{
-//            hideAllButtons()
-//            showSingleSelectButtons()
-//        }
+        var item: Item
+        if isFiltering() {
+            item = filteredItems[indexPath.row]
+        } else {
+            item = items[indexPath.row]
+        }
+        if let selectedIndex = selectedItems.firstIndex(of: item){
+            selectedItems.remove(at: selectedIndex)
+        }
+        switch selectedItems.count {
+        case 0:
+            changeButtons([], [.add,.remove,.update])
+        case 1:
+            changeButtons([.remove, .update], [.add])
+        default:
+            changeButtons([.remove], [.update,.add])
+        }
     }
 }
 
@@ -324,5 +554,10 @@ extension ScrollableBottomSheetViewController: UISearchBarDelegate{
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchController.searchBar.resignFirstResponder()
+        if checkDuplicate(text:( searchController.searchBar.text ?? "")) {
+            changeButtons([.add], [.remove,.update])
+        }else{
+            changeButtons([], [.add,.remove,.update])
+        }
     }
 }

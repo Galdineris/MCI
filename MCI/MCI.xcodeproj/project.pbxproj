@@ -16,9 +16,6 @@
 		F2410EC022E104D9004BB84A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2410EBF22E104D9004BB84A /* Assets.xcassets */; };
 		F2410EC322E104D9004BB84A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2410EC122E104D9004BB84A /* LaunchScreen.storyboard */; };
 		F2410ED622E231FA004BB84A /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2410ED422E231FA004BB84A /* ScrollableBottomSheetViewController.swift */; };
-		F26CC55B22ECE04B0002FF2C /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC55922ECE04B0002FF2C /* Item+CoreDataClass.swift */; };
-		F26CC55C22ECE04B0002FF2C /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC55A22ECE04B0002FF2C /* Item+CoreDataProperties.swift */; };
-		F26CC55F22ECE0ED0002FF2C /* DataModifiedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC55E22ECE0ED0002FF2C /* DataModifiedDelegate.swift */; };
 		F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,9 +31,6 @@
 		F2410EC222E104D9004BB84A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2410EC422E104D9004BB84A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2410ED422E231FA004BB84A /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
-		F26CC55922ECE04B0002FF2C /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F26CC55A22ECE04B0002FF2C /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F26CC55E22ECE0ED0002FF2C /* DataModifiedDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModifiedDelegate.swift; sourceTree = "<group>"; };
 		F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,10 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				F2410EB522E104D7004BB84A /* AppDelegate.swift */,
-				F26CC55D22ECE0500002FF2C /* Model */,
 				F2410ED322E110E7004BB84A /* Views */,
 				F2410ED222E10BBE004BB84A /* Controllers */,
-				F26CC56022ECE0F80002FF2C /* Subclasses */,
 				F2410EC422E104D9004BB84A /* Info.plist */,
 				F2410EBF22E104D9004BB84A /* Assets.xcassets */,
 				F2410EBC22E104D7004BB84A /* MCI.xcdatamodeld */,
@@ -101,23 +93,6 @@
 				F22350C122E6492C002E7C39 /* DefaultTableViewCell.xib */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		F26CC55D22ECE0500002FF2C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				F26CC55922ECE04B0002FF2C /* Item+CoreDataClass.swift */,
-				F26CC55A22ECE04B0002FF2C /* Item+CoreDataProperties.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		F26CC56022ECE0F80002FF2C /* Subclasses */ = {
-			isa = PBXGroup;
-			children = (
-				F26CC55E22ECE0ED0002FF2C /* DataModifiedDelegate.swift */,
-			);
-			path = Subclasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,12 +168,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F26CC55C22ECE04B0002FF2C /* Item+CoreDataProperties.swift in Sources */,
-				F26CC55B22ECE04B0002FF2C /* Item+CoreDataClass.swift in Sources */,
 				F2410ED622E231FA004BB84A /* ScrollableBottomSheetViewController.swift in Sources */,
 				F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */,
 				F2410EBE22E104D7004BB84A /* MCI.xcdatamodeld in Sources */,
-				F26CC55F22ECE0ED0002FF2C /* DataModifiedDelegate.swift in Sources */,
 				F2410EB822E104D7004BB84A /* MainViewController.swift in Sources */,
 				F2410EB622E104D7004BB84A /* AppDelegate.swift in Sources */,
 			);
