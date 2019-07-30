@@ -29,10 +29,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFL-zH-kpg">
                         <rect key="frame" x="0.0" y="10" width="310" height="23.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Jp-xY-QCY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Viver" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Jp-xY-QCY">
                                 <rect key="frame" x="62" y="0.0" width="248" height="23.5"/>
                                 <color key="tintColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
-                                <string key="text">The San Francisco typeface was designed to be highly legible at both small and large sizes. Dynamic Type provides additional flexibility by letting readers choose their preferred text size. Download a dynamic type size table in Resources.</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -40,7 +39,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wsp-Xe-Wbh">
                                 <rect key="frame" x="0.0" y="0.0" width="46" height="23.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="GyW-13-CX4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="GyW-13-CX4">
                                         <rect key="frame" x="0.0" y="0.0" width="46" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
