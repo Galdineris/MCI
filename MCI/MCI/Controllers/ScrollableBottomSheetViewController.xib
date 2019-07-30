@@ -46,7 +46,7 @@
                                 <constraint firstItem="I4T-nK-d8T" firstAttribute="top" secondItem="LLw-xs-HFy" secondAttribute="top" id="siT-YO-AS4"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hex-gK-s5R" userLabel="Footer View">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hex-gK-s5R" userLabel="Buttons View">
                             <rect key="frame" x="0.0" y="55" width="375" height="55"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="hTd-Ii-7Ck">
