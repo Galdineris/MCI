@@ -18,44 +18,53 @@ class MainViewController: UIViewController {
     
     var items:[Item] = []
     
-    
     let bottomSheetVC = ScrollableBottomSheetViewController()
+    
+    //    var didRotate: (Notification) -> Void = {notification in
+    //        switch UIDevice.current.orientation {
+    //        case .landscapeLeft, .landscapeRight:
+    ////            MainViewController.isLandscaped = true
+    //        default:
+    ////            MainViewController.isLandscaped = false
+    //        }
+    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        retrieveData()
-        randomItems()
-        // Do any additional setup after loading the view.
+        UNUserNotificationCenter.current().delegate = self
+        //        NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification,
+        //                                               object: nil,
+        //                                               queue: .main,
+        //                                               using: didRotate)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         addBottomSheetView()
-        }
+        retrieveData()
+        scheduleNotifications()
+        randomItems()
+    }
     
     @IBAction func updateButtonTap(_ sender: Any) {
         retrieveData()
         randomItems()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    func resizeBottomSheetView(){
+        let height = view.frame.height
+        let width = view.frame.width
+        bottomSheetVC.view.frame = CGRect(x: 0,
+                                          y: self.view.frame.maxY,
+                                          width: width,
+                                          height: height)
+    }
     
     func addBottomSheetView(){
         self.addChild(bottomSheetVC)
         self.view.addSubview(bottomSheetVC.view)
         bottomSheetVC.didMove(toParent: self)
-        
-        let height = view.frame.height
-        let width = view.frame.width
-        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+        resizeBottomSheetView()
     }
     
     func randomItems(){
@@ -79,65 +88,133 @@ class MainViewController: UIViewController {
         }
     }
     
+    func indexToString(_ item : Item?) -> String{
+        if items.isEmpty {
+            return "00"
+        }
+        let maxIndex = String(items[0].index)
+        guard let item = item else {return "00"}
+        var index = "\(String(item.index))"
+        while index.count < maxIndex.count{
+            index = "0\(index)"
+        }
+        return "\(index)"
+    }
+    
+    func getRandomItem() -> Item? {
+        self.retrieveData()
+        return items.randomElement()
+    }
     
     func retrieveData() {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "index",
-                                                              ascending: false)]
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            items = []
-            for data in result as! [NSManagedObject] {
-                items.append(data as! Item)
+        items = bottomSheetVC.items
+    }
+}
+
+extension MainViewController: UNUserNotificationCenterDelegate{
+    
+    func scheduleNotifications() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getNotificationSettings {
+            (settings) in
+            switch settings.authorizationStatus{
+            case .authorized:
+                notificationCenter.add(self.dailyNotifications(), withCompletionHandler: { (error) in
+                    if let uError = error{
+                        print("Error in registering daily notification: \(uError)")
+                    }
+                })
+            case .denied:
+                self.notificationsAlert()
+            case .provisional:
+                notificationCenter.add(self.dailyNotifications(), withCompletionHandler: { (error) in
+                    if let uError = error{
+                        print("Error in registering daily notification: \(uError)")
+                    }
+                })
+            default:
+                self.requestNotificationsPermission()
             }
-        } catch let error as NSError{
-            print("Could not retrieve. \(error), \(error.userInfo)")
+            
         }
     }
     
+    func dailyNotifications() -> UNNotificationRequest{
+        let content = UNMutableNotificationContent()
+        let requestIdentifier = "dailyMorningNotification"
+        do{
+            let randomItem = self.getRandomItem()
+            content.body = self.indexToString(randomItem)
+            content.title = randomItem?.thing ?? "Viver"
+        }
+        content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "dailyCategory"
+        
+        let date = DateComponents(hour: 08, minute: 30)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: date,
+                                                    repeats: false)
+        let request = UNNotificationRequest(identifier: requestIdentifier,
+                                            content: content,
+                                            trigger: trigger)
+        return request
+    }
     
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        return completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        scheduleNotifications()
+    }
+    
+    
+    func requestNotificationsPermission(){
+        let notificationCenter = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert,.sound,.badge]
+        notificationCenter.requestAuthorization(options: options) {
+            (didAllow, error) in
+            if !didAllow {
+                self.notificationsAlert()
+            }else{
+                let action1 = UNNotificationAction(identifier: "action1",
+                                                   title: "Ver mais",
+                                                   options: [.foreground])
+                
+                let category = UNNotificationCategory(identifier: "dailyCategory",
+                                                      actions: [action1],
+                                                      intentIdentifiers: [],
+                                                      options: [])
+                
+                notificationCenter.setNotificationCategories([category])
+            }
+        }
+    }
+    
+    func notificationsAlert(){
+        let alertController = UIAlertController(title: "Notificações",
+                                                message: "Uma das principais funcionalidades deste aplicativo envolve o envio de notificações. Você gostaria de habilitar as notificações deste aplicativo?",
+                                                preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+        let settingsAction = UIAlertAction(title: "Sim", style: .default) { (_) -> Void in
+            
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("Settings opened: \(success)") // Prints true
+                })
+            }
+        }
+        alertController.addAction(settingsAction)
+        self.present(alertController,
+                     animated: true,
+                     completion: nil)
+    }
 }
-
-//        let current = UNUserNotificationCenter.current()
-//        current.getNotificationSettings(completionHandler: { (settings) in
-//            if settings.authorizationStatus == .notDetermined {
-//                // Notification permission has not been asked yet, go for it!
-//            } else if settings.authorizationStatus == .denied {
-//                // Notification permission was previously denied, go to settings & privacy to re-enable
-//            } else if settings.authorizationStatus == .authorized {
-//                // Notification permission was already granted
-//            }
-//        })
-
-//func notificationsAlert(){
-//
-//    let alertController = UIAlertController(title: "Notificações",
-//                                            message: "Uma das funcionalidades deste aplicativo envolve o envio de notificações. Você gostaria de habilitar as notificações deste aplicativo?",
-//                                            preferredStyle: .alert)
-//
-//    let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-//    alertController.addAction(cancelAction)
-//    let settingsAction = UIAlertAction(title: "Open Settings", style: .default) { (_) -> Void in
-//
-//        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-//            return
-//        }
-//
-//        if UIApplication.shared.canOpenURL(settingsUrl) {
-//            UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-//                print("Settings opened: \(success)") // Prints true
-//            })
-//        }
-//    }
-//    alertController.addAction(settingsAction)
-//    self.present(alertController,
-//                 animated: true,
-//                 completion: nil)
-//}

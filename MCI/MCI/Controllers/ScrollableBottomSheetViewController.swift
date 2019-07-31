@@ -13,7 +13,7 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     @IBOutlet weak var searchContainer: UIView!
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     
     @IBOutlet var footerButtons: [UIButton]!
     
@@ -28,7 +28,7 @@ class ScrollableBottomSheetViewController: UIViewController{
     var keyboardHeight: CGFloat = 200
     var filteredItems: [Item] = []
     var selectedItems: [Item] = []
-    var items: [Item] = []
+    public var items: [Item] = []
     
     
     
@@ -332,8 +332,12 @@ class ScrollableBottomSheetViewController: UIViewController{
         let item = NSManagedObject(entity: itemEntity,
                                    insertInto: managedContext)
         
+        let currentDate = Date.init()
+        
         item.setValue(description,
                       forKeyPath: "thing")
+        item.setValue(currentDate,
+                      forKey: "dateAdded")
         
         do {
             try managedContext.save()
