@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="landscape">
+    <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -13,7 +13,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScrollableBottomSheetViewController" customModule="MCI" customModuleProvider="target">
             <connections>
                 <outlet property="buttonsView" destination="Hex-gK-s5R" id="CCa-it-iAL"/>
-                <outlet property="searchContainer" destination="I4T-nK-d8T" id="EqU-LF-05I"/>
+                <outlet property="notchView" destination="mz2-xy-InR" id="aLz-3c-a9K"/>
+                <outlet property="searchContainer" destination="MWb-ZR-aJ1" id="VPW-Cu-WJ7"/>
                 <outlet property="tableView" destination="Ucd-LV-kxA" id="Ca9-al-FLx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="footerButtons" destination="aq8-QL-FgC" collectionClass="NSMutableArray" id="B9p-7P-zj7"/>
@@ -23,40 +24,60 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QoZ-a6-0RI">
-                    <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-xs-HFy" userLabel="Header View">
-                            <rect key="frame" x="0.0" y="0.0" width="896" height="55"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LLw-xs-HFy" userLabel="Notch View">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="10"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I4T-nK-d8T" userLabel="searchContainer">
-                                    <rect key="frame" x="0.0" y="0.0" width="896" height="55"/>
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mz2-xy-InR">
+                                    <rect key="frame" x="176" y="5" width="62" height="5"/>
+                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="5" id="48W-YM-qtD"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" red="0.21179473400115967" green="0.21212607622146606" blue="0.19127416610717773" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
+                            <constraints>
+                                <constraint firstItem="mz2-xy-InR" firstAttribute="width" secondItem="LLw-xs-HFy" secondAttribute="width" multiplier="0.15" id="DKT-iE-Y6M"/>
+                                <constraint firstAttribute="height" constant="10" id="P0H-9H-ruI"/>
+                                <constraint firstItem="mz2-xy-InR" firstAttribute="centerX" secondItem="LLw-xs-HFy" secondAttribute="centerX" id="QIM-Zf-uSj"/>
+                                <constraint firstAttribute="bottom" secondItem="mz2-xy-InR" secondAttribute="bottom" id="ZEh-DO-qgQ"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eGu-fM-ePp" userLabel="Header View">
+                            <rect key="frame" x="0.0" y="10" width="414" height="55"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWb-ZR-aJ1" userLabel="searchContainer">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="I4T-nK-d8T" secondAttribute="bottom" id="3G8-G4-EK8"/>
-                                <constraint firstItem="I4T-nK-d8T" firstAttribute="leading" secondItem="LLw-xs-HFy" secondAttribute="leading" id="FGF-VL-CRM"/>
-                                <constraint firstAttribute="trailing" secondItem="I4T-nK-d8T" secondAttribute="trailing" id="LJ5-pH-Mfa"/>
-                                <constraint firstAttribute="height" constant="55" id="P0H-9H-ruI"/>
-                                <constraint firstItem="I4T-nK-d8T" firstAttribute="top" secondItem="LLw-xs-HFy" secondAttribute="top" id="siT-YO-AS4"/>
+                                <constraint firstAttribute="height" constant="55" id="7lh-NY-2s8"/>
+                                <constraint firstAttribute="bottom" secondItem="MWb-ZR-aJ1" secondAttribute="bottom" id="Ylb-8I-D2c"/>
+                                <constraint firstItem="MWb-ZR-aJ1" firstAttribute="leading" secondItem="eGu-fM-ePp" secondAttribute="leading" id="gef-Qq-UXh"/>
+                                <constraint firstAttribute="trailing" secondItem="MWb-ZR-aJ1" secondAttribute="trailing" id="ofT-du-n1h"/>
+                                <constraint firstItem="MWb-ZR-aJ1" firstAttribute="top" secondItem="eGu-fM-ePp" secondAttribute="top" id="vAe-Qd-oS9"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hex-gK-s5R" userLabel="Buttons View">
-                            <rect key="frame" x="0.0" y="55" width="896" height="55"/>
+                            <rect key="frame" x="0.0" y="65" width="414" height="55"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="hTd-Ii-7Ck">
-                                    <rect key="frame" x="0.0" y="0.0" width="896" height="55"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QLc-4i-Ly8" userLabel="Remove View">
-                                            <rect key="frame" x="0.0" y="0.0" width="292.5" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="132" height="55"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aq8-QL-FgC">
-                                                    <rect key="frame" x="0.0" y="10" width="292.5" height="35"/>
+                                                    <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="Remove"/>
                                                     <connections>
@@ -72,10 +93,10 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ay-j3-b0f" userLabel="Update View">
-                                            <rect key="frame" x="301.5" y="0.0" width="293" height="55"/>
+                                            <rect key="frame" x="141" y="0.0" width="132" height="55"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uah-Af-eam">
-                                                    <rect key="frame" x="0.0" y="10" width="293" height="35"/>
+                                                    <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="Update"/>
                                                     <connections>
@@ -91,10 +112,10 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEU-tO-E4Q" userLabel="Add View">
-                                            <rect key="frame" x="603.5" y="0.0" width="292.5" height="55"/>
+                                            <rect key="frame" x="282" y="0.0" width="132" height="55"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFL-T8-gfu">
-                                                    <rect key="frame" x="0.0" y="10" width="292.5" height="35"/>
+                                                    <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="Add"/>
                                                     <connections>
@@ -122,8 +143,8 @@
                                 <constraint firstAttribute="trailing" secondItem="hTd-Ii-7Ck" secondAttribute="trailing" id="rmI-v2-Ftq"/>
                             </constraints>
                         </view>
-                        <tableView contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ucd-LV-kxA">
-                            <rect key="frame" x="0.0" y="110" width="896" height="304"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ucd-LV-kxA">
+                            <rect key="frame" x="0.0" y="120" width="414" height="776"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                     </subviews>

@@ -225,7 +225,7 @@
                                                 <state key="normal" image="Question Gliph"/>
                                             </button>
                                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqz-Yb-zDu" userLabel="Share">
-                                                <rect key="frame" x="221" y="8" width="66" height="65.5"/>
+                                                <rect key="frame" x="199.5" y="8" width="66" height="65.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="zqz-Yb-zDu" secondAttribute="height" multiplier="1:1" id="Vm6-nN-BRf"/>
                                                 </constraints>
@@ -273,12 +273,20 @@
                                 <rect key="frame" x="0.0" y="780" width="414" height="82"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVX-Ye-K4W">
+                                <rect key="frame" x="0.0" y="44" width="414" height="654.5"/>
+                                <connections>
+                                    <action selector="dismissTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wwJ-uX-rAQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="IJW-ci-yeY" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.25" id="0dJ-1B-TS5"/>
+                            <constraint firstItem="Rg1-2a-2qQ" firstAttribute="top" secondItem="gVX-Ye-K4W" secondAttribute="bottom" id="1fD-BE-UGE"/>
                             <constraint firstItem="j8e-7n-COy" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.1" id="2sE-rp-Gf2"/>
                             <constraint firstItem="2yu-z3-och" firstAttribute="top" secondItem="IJW-ci-yeY" secondAttribute="bottom" id="2vf-so-Sah"/>
+                            <constraint firstItem="gVX-Ye-K4W" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ajs-Vc-c4t"/>
                             <constraint firstItem="IJW-ci-yeY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="I34-kE-XM3"/>
                             <constraint firstItem="2yu-z3-och" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Ogt-8F-JiJ"/>
                             <constraint firstItem="j8e-7n-COy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="UGL-ob-HaI"/>
@@ -288,7 +296,9 @@
                             <constraint firstItem="Rg1-2a-2qQ" firstAttribute="top" secondItem="2yu-z3-och" secondAttribute="bottom" id="aCS-YK-6qK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rg1-2a-2qQ" secondAttribute="trailing" id="alB-ms-1fs"/>
                             <constraint firstItem="hZT-qc-WWJ" firstAttribute="leading" secondItem="rYz-Je-RGV" secondAttribute="leading" id="fBV-NL-gRG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gVX-Ye-K4W" secondAttribute="trailing" id="ftr-4U-Ify"/>
                             <constraint firstItem="j8e-7n-COy" firstAttribute="top" secondItem="Rg1-2a-2qQ" secondAttribute="bottom" id="gab-5s-Uvh"/>
+                            <constraint firstItem="gVX-Ye-K4W" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nim-wP-8qb"/>
                             <constraint firstItem="j8e-7n-COy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="olW-ga-Za2"/>
                             <constraint firstItem="2yu-z3-och" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="0.55" id="qdo-Qm-mg1"/>
                             <constraint firstItem="2yu-z3-och" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="taM-xb-EYi"/>

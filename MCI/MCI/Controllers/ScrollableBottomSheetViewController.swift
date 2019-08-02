@@ -19,12 +19,20 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     @IBOutlet weak var buttonsView: UIView!
     
+    @IBOutlet weak var notchView: UIView!
+    
+    
     var searchController = UISearchController(searchResultsController: nil)
+    
     let fullView: CGFloat = 100
     var partialView: CGFloat{
         guard let safeAreaBottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else {return 0}
-        return UIScreen.main.bounds.height -  (55 + safeAreaBottom)
+        return UIScreen.main.bounds.height -  (searchController.searchBar.frame.height + safeAreaBottom + 10)
     }
+    var halfView : CGFloat{
+        return self.view.frame.height - (self.keyboardHeight + searchController.searchBar.frame.height + 10)
+    }
+    
     var keyboardHeight: CGFloat = 200
     var filteredItems: [Item] = []
     var selectedItems: [Item] = []
@@ -35,10 +43,12 @@ class ScrollableBottomSheetViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpTableView()
-        setUpSearchController()
-        setUpButtons()
-        changeButtons()
+        notchView.layer.cornerRadius = 2.5
+        
+        setupTableView()
+        setupSearchController()
+        setupButtons()
+        
         definesPresentationContext = false
         
         NotificationCenter.default.addObserver(
@@ -76,6 +86,8 @@ class ScrollableBottomSheetViewController: UIViewController{
         }
     }
     
+
+    
     
     
     
@@ -104,8 +116,8 @@ class ScrollableBottomSheetViewController: UIViewController{
         if !searchController.isActive{
             let translation = recognizer.translation(in: self.view)
             let velocity = recognizer.velocity(in: self.view)
-            
             let y = self.view.frame.minY
+            
             if (y + translation.y >= fullView) && (y + translation.y <= partialView) {
                 self.view.frame = CGRect(x: 0,
                                          y: y + translation.y,
@@ -118,10 +130,11 @@ class ScrollableBottomSheetViewController: UIViewController{
                 var duration =  velocity.y < 0 ? Double((y - fullView) / -velocity.y) : Double((partialView - y) / velocity.y )
                 
                 duration = duration > 1.3 ? 1 : duration
+                duration = duration < 0.3 ? 0.3 : duration
                 
                 UIView.animate(withDuration: duration,
                                delay: 0.0,
-                               options: [.allowUserInteraction],
+                               options: [.allowUserInteraction, .curveEaseOut],
                                animations: {
                                 if  velocity.y >= 0 {
                                     self.view.frame = CGRect(x: 0,
@@ -133,15 +146,12 @@ class ScrollableBottomSheetViewController: UIViewController{
                                                              y: self.fullView,
                                                              width: self.view.frame.width,
                                                              height: self.view.frame.height)
-                                    
                                 }
                                 
-                }, completion: { [weak self] _ in
-                    guard let unwrapedSelf = self else {return}
-                    if ( velocity.y < 0 ) {
-                        unwrapedSelf.tableView.isScrollEnabled = true
-                    }
-                })
+                }, completion: nil)
+                if ( velocity.y < 0 ) {
+                    self.tableView.isScrollEnabled = true
+                }
             }
         }
     }
@@ -153,40 +163,33 @@ class ScrollableBottomSheetViewController: UIViewController{
         case closed = 2
     }
     func changeSheetState(_ state: SheetStates){
-        UIView.animate(withDuration: 0.6, animations: { [weak self] in
+        var yComponent : CGFloat = 0
+        var tableViewInset : CGFloat = 0
+        var animDuration : Double = 0.6
+        switch state {
+        case .open:
+            yComponent = self.fullView
+            tableViewInset = view.frame.height - fullView
+        case .halfOpen:
+            yComponent = halfView
+            tableViewInset = view.frame.height - halfView
+            animDuration = 0.0
+        default:
+            yComponent = self.partialView
+            tableViewInset = view.frame.height - partialView
+        }
+        UIView.animate(withDuration: animDuration, animations: { [weak self] in
             guard let unwrapedSelf = self else {return}
             let frame = unwrapedSelf.view.frame
-            var yComponent: CGFloat = 0
-            switch state {
-            case .open:
-                yComponent = unwrapedSelf.fullView
-            case .halfOpen:
-                yComponent = frame.height - (unwrapedSelf.keyboardHeight + 55)
-            default:
-                yComponent = unwrapedSelf.partialView
-            }
             unwrapedSelf.view.frame = CGRect(x: 0,
                                              y: yComponent,
                                              width: frame.width,
                                              height: frame.height)
         })
-        switch state {
-        case .open:
-            tableView.contentInset = UIEdgeInsets(top: 0,
-                                                  left: 0,
-                                                  bottom: view.frame.height - fullView,
-                                                  right: 0)
-        case .halfOpen:
-            tableView.contentInset = UIEdgeInsets(top: 0,
-                                                  left: 0,
-                                                  bottom: view.frame.height - (self.keyboardHeight + 55),
-                                                  right: 0)
-        default:
-            tableView.contentInset = UIEdgeInsets(top: 0,
-                                                  left: 0,
-                                                  bottom: view.frame.height - partialView,
-                                                  right: 0)
-        }
+        tableView.contentInset = UIEdgeInsets(top: 0,
+                                              left: 0,
+                                              bottom: tableViewInset,
+                                              right: 0)
     }
     
     enum ButtonStates: Int{
@@ -194,26 +197,24 @@ class ScrollableBottomSheetViewController: UIViewController{
         case remove = 0
         case update = 2
     }
-    func changeButtons( on: [ButtonStates]?,
-                        off: [ButtonStates]?){
+    func changeButtons( on: [ButtonStates]? = nil,
+                        off: [ButtonStates]? = nil){
         guard let buttons = footerButtons else {return}
         if let on = on{
             for i in on{
+                buttons[i.rawValue].isUserInteractionEnabled = true
                 UIView.animate(withDuration: 0.3,
                                animations: {
                                 buttons[i.rawValue].alpha = 1.0
                 })
-                buttons[i.rawValue].isHidden = false
             }
         }
         if let off = off{
             for i in off{
+                buttons[i.rawValue].isUserInteractionEnabled = false
                 UIView.animate(withDuration: 0.3,
                                animations: {
                                 buttons[i.rawValue].alpha = 0.0
-                },
-                               completion: { (true) in
-                                buttons[i.rawValue].isHidden = true
                 })
             }
         }
@@ -274,6 +275,9 @@ class ScrollableBottomSheetViewController: UIViewController{
             preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.text = updatedItem.thing
+            textField.keyboardType = .asciiCapable
+            textField.autocorrectionType = .default
+            textField.autocapitalizationType = .sentences
         }
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
@@ -448,9 +452,10 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     func checkForDuplicates(_ searchText: String) -> Bool{
         for item in items{
-            if (item.thing?.lowercased().contains(searchText.lowercased()) ?? false){
+            if (item.thing?.lowercased() == searchText.lowercased()){
                 return true
             }
+            
         }
         return false
     }
@@ -459,16 +464,10 @@ class ScrollableBottomSheetViewController: UIViewController{
         for i in selectedItems{
             if isFiltering(){
                 if let pos = filteredItems.firstIndex(of: i){
-//                    tableView.selectRow(at: IndexPath(row: pos, section: 1),
-//                                        animated: true,
-//                                        scrollPosition: .none)
                     tableView.cellForRow(at: IndexPath(row: pos, section: 1))?.isSelected = true
                 }
             }else{
                 if let pos = items.firstIndex(of: i){
-//                    tableView.selectRow(at: IndexPath(row: pos, section: 1),
-//                                        animated: true,
-//                                        scrollPosition: .none)
                     tableView.cellForRow(at: IndexPath(row: pos, section: 1))?.isSelected = true
                 }
             }
@@ -485,7 +484,7 @@ class ScrollableBottomSheetViewController: UIViewController{
         view.insertSubview(bluredView, at: 0)
     }
     
-    func setUpTableView(){
+    func setupTableView(){
         retrieveData()
         tableView.delegate = self
         tableView.dataSource = self
@@ -501,15 +500,20 @@ class ScrollableBottomSheetViewController: UIViewController{
         tableView.backgroundColor = .black
     }
     
-    func setUpSearchController(){
+    func setupSearchController(){
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         
         let scb = searchController.searchBar
+        scb.placeholder = "Adicione ou Busque um Item"
         scb.barStyle = .blackOpaque
         scb.tintColor = UIColor.orange
         scb.keyboardAppearance = UIKeyboardAppearance.dark
+        scb.keyboardType = .asciiCapable
+        scb.autocorrectionType = .default
+        scb.autocapitalizationType = .sentences
+        scb.enablesReturnKeyAutomatically = true
         if let textfield = scb.value(forKey: "searchField") as? UITextField {
             textfield.textColor = UIColor.white
             if let backgroundview = textfield.subviews.first {
@@ -522,13 +526,14 @@ class ScrollableBottomSheetViewController: UIViewController{
         searchContainer.addSubview(scb)
     }
     
-    func setUpButtons(){
+    func setupButtons(){
         for i in footerButtons{
             i.layer.cornerRadius = i.frame.height/2
             i.layer.borderColor = i.tintColor.cgColor
             i.layer.borderWidth = 2.0
             i.clipsToBounds = true
         }
+        changeButtons()
     }
     
 }
@@ -550,14 +555,6 @@ extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewD
             return filteredItems.count
         }
         return items.count > 0 ? items.count : 1
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   heightForFooterInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 50
-        }
-        return 0
     }
     
     func tableView(_ tableView: UITableView,
@@ -649,7 +646,6 @@ extension ScrollableBottomSheetViewController: UISearchResultsUpdating{
             changeButtons(on: [],
                           off: [.add,.remove,.update])
         }
-        reSelectRows()
     }
 }
 

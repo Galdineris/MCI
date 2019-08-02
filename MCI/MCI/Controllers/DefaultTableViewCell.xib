@@ -78,6 +78,7 @@
                     <constraint firstAttribute="trailing" secondItem="KFL-zH-kpg" secondAttribute="trailing" constant="10" id="oKA-0o-eTl"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
             <color key="tintColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>

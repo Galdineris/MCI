@@ -16,26 +16,14 @@ class MainViewController: UIViewController {
     @IBOutlet var labelsCollection: [UIView]!
     @IBOutlet weak var shareButton: UIButton!
     
+    
     var items:[Item] = []
     
     let bottomSheetVC = ScrollableBottomSheetViewController()
     
-    //    var didRotate: (Notification) -> Void = {notification in
-    //        switch UIDevice.current.orientation {
-    //        case .landscapeLeft, .landscapeRight:
-    ////            MainViewController.isLandscaped = true
-    //        default:
-    ////            MainViewController.isLandscaped = false
-    //        }
-    //    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         UNUserNotificationCenter.current().delegate = self
-        //        NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification,
-        //                                               object: nil,
-        //                                               queue: .main,
-        //                                               using: didRotate)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +38,17 @@ class MainViewController: UIViewController {
         retrieveData()
         randomItems()
     }
+    
+    @IBAction func dismissTap(_ sender: Any) {
+        dismissKeyboard()
+    }
+    
+    
+    func dismissKeyboard(){
+        bottomSheetVC.searchController.isActive = false
+        bottomSheetVC.changeSheetState(.closed)
+    }
+
     
     func resizeBottomSheetView(){
         let height = view.frame.height
@@ -69,23 +68,26 @@ class MainViewController: UIViewController {
     
     func randomItems(){
         if items.isEmpty{return}
-        var thing: String = ""
-        var index: String = ""
-        let maxIndex = String(items[0].index)
-        for i in 0...4{
-            thing = ""
-            index = ""
-            if (items.count - 1) > i{
-                let randomItem = items.randomElement()
-                thing = randomItem?.thing ?? ""
-                index = "\(String(randomItem?.index ?? 0))"
-                while index.count < maxIndex.count{
-                    index = "0\(index)"
+        var randomItems: [Item] = []
+        
+        if items.count < 6{
+            randomItems = items.shuffled()
+        }else{
+            for _ in 0..<5{
+                var randomItem = items.randomElement()
+                while randomItems.contains(randomItem!){
+                    randomItem = items.randomElement()
                 }
+                randomItems.append(randomItem!)
             }
-            (labelsCollection[i].subviews[1] as! UILabel).text = index
-            (labelsCollection[i].subviews[0] as! UILabel).text = thing
         }
+        
+        for i in 0..<randomItems.count{
+            (labelsCollection[i].subviews[1] as! UILabel).text = indexToString(randomItems[i])
+            (labelsCollection[i].subviews[0] as! UILabel).text = randomItems[i].thing ?? ""
+        }
+
+        
     }
     
     func indexToString(_ item : Item?) -> String{
@@ -153,6 +155,8 @@ extension MainViewController: UNUserNotificationCenterDelegate{
         let date = DateComponents(hour: 08, minute: 30)
         let trigger = UNCalendarNotificationTrigger(dateMatching: date,
                                                     repeats: false)
+//        let trigger =   UNTimeIntervalNotificationTrigger(timeInterval: 3.0, repeats: false)
+
         let request = UNNotificationRequest(identifier: requestIdentifier,
                                             content: content,
                                             trigger: trigger)
