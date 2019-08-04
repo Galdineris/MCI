@@ -34,17 +34,27 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     var keyboardHeight: CGFloat = 200
-    var filteredItems: [Item] = []
-    var selectedItems: [Item] = []
-    public var items: [Item] = []
+    var filteredItems: [Item] = []{
+        didSet{
+            reSelectRows()
+        }
+    }
+    var selectedItems: [Item] = []{
+        didSet{
+            changeButtons()
+        }
+    }
+    var items: [Item] = []
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ModelManager.shared().addDelegate(self)
         
         notchView.layer.cornerRadius = 2.5
         
+        getItems()
         setupTableView()
         setupSearchController()
         setupButtons()
@@ -62,15 +72,9 @@ class ScrollableBottomSheetViewController: UIViewController{
         panGestureRecognizer.delegate = self
         view.addGestureRecognizer(panGestureRecognizer)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        prepareBackgroundView()
-        retrieveData()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        prepareBackgroundView()
         changeSheetState(SheetStates.closed)
     }
     
@@ -220,16 +224,9 @@ class ScrollableBottomSheetViewController: UIViewController{
         }
     }
     func changeButtons(){
-        if items.count == 1{
-            if items[0].index == 0{
-                changeButtons(on: [],
-                              off: [.add,.update,.remove])
-                return
-            }
-        }
+        changeButtons(off: [.add,.remove,.update])
         if selectedItems.count == 0{
-            changeButtons(on: [],
-                          off: [.add,.update,.remove])
+            changeButtons(off: [.add,.update,.remove])
         }else if(selectedItems.count == 1){
             changeButtons(on: [.update, .remove],
                           off: [.add])
@@ -241,222 +238,74 @@ class ScrollableBottomSheetViewController: UIViewController{
     
     
     @IBAction func addButton(_ sender: Any) {
-        guard let newItemDescription = searchController.searchBar.text else {return}
-        changeButtons(on: [],
-                      off: [.add,.remove,.update])
-        saveItem(description: newItemDescription)
+        guard let newItemThing = searchController.searchBar.text else {return}
+        saveItem(thing: newItemThing)
         searchController.isActive = false
-        retrieveData()
     }
     
     @IBAction func removeButton(_ sender: Any) {
-        changeButtons(on: [],
-                      off: [.add,.remove,.update])
-        
-        
-        for i in selectedItems{
-            selectedItems.remove(at: selectedItems.firstIndex(of: i)!)
-            deleteItem(target: i)
+        while !(selectedItems.isEmpty) {
+            if let item = selectedItems.popLast(){
+                deleteItem(target: item)
+            }
         }
         searchController.isActive = false
-        retrieveData()
     }
     
     @IBAction func updateButton(_ sender: Any) {
-        changeButtons(on: [],
-                      off: [.add,.remove,.update])
         if selectedItems.count != 1 {return}
-        let updatedItem = selectedItems[0]
-        tableView.deselectRow(at: IndexPath(row: Int(updatedItem.index),
-                                            section: 1),
-                              animated: true)
+        if let updatedItem = selectedItems.popLast(),
+            let indexPath = tableView.indexPathForSelectedRow {
+            updateAlert(updatedItem: updatedItem)
+            tableView.deselectRow(at: indexPath,
+                                  animated: true)
+
+        }
+    }
+    
+    func updateAlert(updatedItem: Item){
         let alert = UIAlertController(title: "Atualizar Item",
                                       message: "Revise abaixo o texto do item 0\(updatedItem.index)",
             preferredStyle: .alert)
+        
         alert.addTextField { (textField) in
             textField.text = updatedItem.thing
             textField.keyboardType = .asciiCapable
             textField.autocorrectionType = .default
             textField.autocapitalizationType = .sentences
+//            textField.addTarget(self,
+//                                action: #selector(self.alertTextFieldDidChange(_:)),
+//                                for: .editingChanged)
         }
+        
+        let saveUpdate: (UIAlertAction) -> Void = { [weak alert] (_) in
+            let textField = alert!.textFields![0]
+            self.updateItem(target: updatedItem,
+                            update: textField.text ?? "<Vazio>")
+        }
+        
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
                                       handler: nil))
         alert.addAction(UIAlertAction(title: "OK",
                                       style: .default,
-                                      handler: { [weak alert] (_) in
-                                        let textField = alert!.textFields![0]
-                                        self.updateItem(thing: textField.text ?? "<Vazio>", target: updatedItem)
-                                        self.retrieveData()
-        }))
+                                      handler: saveUpdate))
         self.present(alert,
                      animated: true,
                      completion: nil)
-        selectedItems = []
     }
     
-    func retrieveData() {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "index",
-                                                              ascending: false)]
-        do {
-            let result = try managedContext.fetch(fetchRequest)
-            items = []
-            for data in result as! [NSManagedObject] {
-                items.append(data as! Item)
-            }
-        } catch let error as NSError{
-            print("Could not retrieve. \(error), \(error.userInfo)")
-        }
-        tableView.reloadData()
-    }
-    
-    
-    
-    
-    func saveItem(description: String) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let itemEntity =
-            NSEntityDescription.entity(forEntityName: "Item",
-                                       in: managedContext)!
-        
-        let item = NSManagedObject(entity: itemEntity,
-                                   insertInto: managedContext)
-        
-        let currentDate = Date.init()
-        
-        item.setValue(description,
-                      forKeyPath: "thing")
-        item.setValue(currentDate,
-                      forKey: "dateAdded")
-        
-        do {
-            try managedContext.save()
-            items.append(item as! Item)
-            updateIndices()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func updateItem(thing: String, target: Item){
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Item")
-        fetchRequest.predicate = NSPredicate(format: "index = %d",
-                                             target.index)
-        do
-        {
-            let itemToChange = try managedContext.fetch(fetchRequest)
-            
-            let objectUpdate = itemToChange[0] as! NSManagedObject
-            objectUpdate.setValue(thing,
-                                  forKey: "thing")
-            objectUpdate.setValue(target.dateAdded,
-                                  forKey: "dateAdded")
-            do{
-                try managedContext.save()
-            }
-            catch let error as NSError
-            {
-                print("Could not update item. \(error), \(error.userInfo)")
-            }
-        }
-        catch let error as NSError
-        {
-            print("Could not find item to update. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func deleteItem(target: Item){
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Item")
-        fetchRequest.predicate = NSPredicate(format: "index = %d",
-                                             target.index)
-        do
-        {
-            let ItemToDelete = try managedContext.fetch(fetchRequest)
-            
-            let objectToDelete = ItemToDelete[0] as! NSManagedObject
-            managedContext.delete(objectToDelete)
-            updateIndices()
-            do{
-                try managedContext.save()
-            }
-            catch let error as NSError
-            {
-                print("Could not delete item. \(error), \(error.userInfo)")
-            }
-        }
-        catch let error as NSError
-        {
-            print("Could not find item to delete. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func updateIndices(){
-        
-        var newIndex: Int16 = 1
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Item")
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor.init(key: "index",
-                                                              ascending: false)]
-        do
-        {
-            let itemsToChange = try managedContext.fetch(fetchRequest)
-            for i in itemsToChange{
-                let objectUpdate = i as! NSManagedObject
-                objectUpdate.setValue(newIndex,
-                                      forKey: "index")
-                do{
-                    try managedContext.save()
-                }
-                catch let error as NSError
-                {
-                    print("Could not save. \(error), \(error.userInfo)")
-                }
-                newIndex += 1
-            }
-        }
-        catch let error as NSError
-        {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
+//    @objc func alertTextFieldDidChange(_ sender: UITextField) {
+//        alert?.actions[0].isEnabled = sender.text!.count > 0
+//    }
     
     func checkForDuplicates(_ searchText: String) -> Bool{
         for item in items{
             if (item.thing?.lowercased() == searchText.lowercased()){
                 return true
             }
-            
         }
+        
         return false
     }
     
@@ -485,7 +334,6 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     func setupTableView(){
-        retrieveData()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "DefaultTableViewCell",
@@ -538,7 +386,42 @@ class ScrollableBottomSheetViewController: UIViewController{
     
 }
 
+extension ScrollableBottomSheetViewController: DataModifiedDelegate{
+    func DataModified() {
+        getItems()
+        tableView.reloadData()
+    }
+    
+    func getItems() {
+        items = ModelManager.shared().items
+    }
+    
+    func saveItem(thing: String){
+        let status:ModelStatus = ModelManager.shared().addItem(thing: thing)
+        if !(status.successful) {
+            fatalError(status.description)
+        }
+    }
+    
+    func updateItem(target: Item, update: String){
+        let status:ModelStatus = ModelManager.shared().editItem(target: target, newThing: update)
+        if !(status.successful) {
+            fatalError(status.description)
+        }
+    }
+    
+    func deleteItem(target: Item){
+        if let index = items.firstIndex(of: target){
+            let status:ModelStatus = ModelManager.shared().removeItem(at: index)
+            if !(status.successful) {
+                fatalError(status.description)
+            }
+        }else{
+            fatalError("Error when locating item to delete")
+        }
+    }
 
+}
 
 
 

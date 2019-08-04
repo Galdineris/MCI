@@ -23,19 +23,19 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ModelManager.shared().addDelegate(self)
         UNUserNotificationCenter.current().delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         addBottomSheetView()
-        retrieveData()
-        scheduleNotifications()
+        getItems()
         randomItems()
     }
     
     @IBAction func updateButtonTap(_ sender: Any) {
-        retrieveData()
+        scheduleNotifications()
         randomItems()
     }
     
@@ -69,6 +69,11 @@ class MainViewController: UIViewController {
     func randomItems(){
         if items.isEmpty{return}
         var randomItems: [Item] = []
+        
+        for label in labelsCollection{
+            (label.subviews[1] as! UILabel).text = ""
+            (label.subviews[0] as! UILabel).text = ""
+        }
         
         if items.count < 6{
             randomItems = items.shuffled()
@@ -104,12 +109,7 @@ class MainViewController: UIViewController {
     }
     
     func getRandomItem() -> Item? {
-        self.retrieveData()
         return items.randomElement()
-    }
-    
-    func retrieveData() {
-        items = bottomSheetVC.items
     }
 }
 
@@ -220,5 +220,16 @@ extension MainViewController: UNUserNotificationCenterDelegate{
         self.present(alertController,
                      animated: true,
                      completion: nil)
+    }
+}
+
+extension MainViewController: DataModifiedDelegate{
+    func DataModified() {
+        getItems()
+        randomItems()
+    }
+    
+    func getItems() {
+        items = ModelManager.shared().items
     }
 }
