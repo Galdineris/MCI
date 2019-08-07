@@ -293,7 +293,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="7K9-W7-3I4" secondAttribute="height" multiplier="1:1" id="zNl-ww-qci"/>
                                                 </constraints>
-                                                <state key="normal" title="mulligan" image="Update Gliph"/>
+                                                <state key="normal" image="Update Gliph"/>
                                                 <connections>
                                                     <action selector="updateButtonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Cb2-kx-jvh"/>
                                                 </connections>
