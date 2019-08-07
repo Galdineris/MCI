@@ -21,6 +21,9 @@
 		F293375A22F4B8D1009DFC80 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293375822F4B8D1009DFC80 /* Item+CoreDataClass.swift */; };
 		F293375B22F4B8D1009DFC80 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293375922F4B8D1009DFC80 /* Item+CoreDataProperties.swift */; };
 		F293375E22F4C006009DFC80 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293375D22F4C006009DFC80 /* ModelManager.swift */; };
+		F2A26D4422F77CA800A41C4B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F2A26D4322F77CA800A41C4B /* Settings.bundle */; };
+		F2A26D4622F7813F00A41C4B /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A26D4522F7813F00A41C4B /* SettingsBundleHelper.swift */; };
+		F2A26D4C22F7A52700A41C4B /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A26D4B22F7A52700A41C4B /* NotificationsManager.swift */; };
 		F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +44,9 @@
 		F293375822F4B8D1009DFC80 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F293375922F4B8D1009DFC80 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F293375D22F4C006009DFC80 /* ModelManager.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		F2A26D4322F77CA800A41C4B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = MCI/Settings.bundle; sourceTree = SOURCE_ROOT; };
+		F2A26D4522F7813F00A41C4B /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
+		F2A26D4B22F7A52700A41C4B /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +85,7 @@
 				F2410ED222E10BBE004BB84A /* Controllers */,
 				F293375F22F4C02B009DFC80 /* Subclasses */,
 				F2410EB522E104D7004BB84A /* AppDelegate.swift */,
+				F2A26D4322F77CA800A41C4B /* Settings.bundle */,
 				F2410EC422E104D9004BB84A /* Info.plist */,
 				F2410EBF22E104D9004BB84A /* Assets.xcassets */,
 				F2410EBC22E104D7004BB84A /* MCI.xcdatamodeld */,
@@ -119,6 +126,8 @@
 		F293375F22F4C02B009DFC80 /* Subclasses */ = {
 			isa = PBXGroup;
 			children = (
+				F2A26D4522F7813F00A41C4B /* SettingsBundleHelper.swift */,
+				F2A26D4B22F7A52700A41C4B /* NotificationsManager.swift */,
 				F293375D22F4C006009DFC80 /* ModelManager.swift */,
 				F2848CB022F4C3E200D75EA7 /* ModelStatus.swift */,
 				F2848CAE22F4C18C00D75EA7 /* DataModifiedDelegate.swift */,
@@ -188,6 +197,7 @@
 				F2410EC022E104D9004BB84A /* Assets.xcassets in Resources */,
 				F22350C422E6492D002E7C39 /* ScrollableBottomSheetViewController.xib in Resources */,
 				F2410EBB22E104D7004BB84A /* Main.storyboard in Resources */,
+				F2A26D4422F77CA800A41C4B /* Settings.bundle in Resources */,
 				F22350C322E6492D002E7C39 /* DefaultTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,12 +211,14 @@
 			files = (
 				F293375B22F4B8D1009DFC80 /* Item+CoreDataProperties.swift in Sources */,
 				F293375A22F4B8D1009DFC80 /* Item+CoreDataClass.swift in Sources */,
+				F2A26D4C22F7A52700A41C4B /* NotificationsManager.swift in Sources */,
 				F2410ED622E231FA004BB84A /* ScrollableBottomSheetViewController.swift in Sources */,
 				F2848CB122F4C3E200D75EA7 /* ModelStatus.swift in Sources */,
 				F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */,
 				F2410EBE22E104D7004BB84A /* MCI.xcdatamodeld in Sources */,
 				F293375E22F4C006009DFC80 /* ModelManager.swift in Sources */,
 				F2410EB822E104D7004BB84A /* MainViewController.swift in Sources */,
+				F2A26D4622F7813F00A41C4B /* SettingsBundleHelper.swift in Sources */,
 				F2848CAF22F4C18C00D75EA7 /* DataModifiedDelegate.swift in Sources */,
 				F2410EB622E104D7004BB84A /* AppDelegate.swift in Sources */,
 			);

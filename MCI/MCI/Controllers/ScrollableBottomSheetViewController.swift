@@ -34,11 +34,7 @@ class ScrollableBottomSheetViewController: UIViewController{
     }
     
     var keyboardHeight: CGFloat = 200
-    var filteredItems: [Item] = []{
-        didSet{
-            reSelectRows()
-        }
-    }
+    var filteredItems: [Item] = []
     var selectedItems: [Item] = []{
         didSet{
             changeButtons()
@@ -89,12 +85,6 @@ class ScrollableBottomSheetViewController: UIViewController{
             keyboardHeight = keyboardRectangle.height
         }
     }
-    
-
-    
-    
-    
-    
     
     func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
@@ -420,12 +410,21 @@ extension ScrollableBottomSheetViewController: DataModifiedDelegate{
             fatalError("Error when locating item to delete")
         }
     }
-
+    
+    func indexToString(_ item : Item?) -> String{
+        let maxIndex = String(items[0].index)
+        guard let item = item else {return "00"}
+        var index = "\(String(item.index))"
+        while index.count < maxIndex.count{
+            index = "0\(index)"
+        }
+        return "\(index)"
+    }
 }
 
 
 
-
+//TABLEVIEW
 extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -447,16 +446,16 @@ extension ScrollableBottomSheetViewController: UITableViewDelegate, UITableViewD
         }
         if items.isEmpty{return cell}
         
-        var item: Item
+        var cellItem: Item
         
         if isFiltering() {
-            item = filteredItems[indexPath.row]
+            cellItem = filteredItems[indexPath.row]
         } else {
-            item = items[indexPath.row]
+            cellItem = items[indexPath.row]
         }
         
-        cell.numberLabel.text = String(item.index)
-        cell.thingLabel.text = item.thing
+        cell.numberLabel.text = indexToString(cellItem)
+        cell.thingLabel.text = cellItem.thing
         return cell
     }
     

@@ -16,13 +16,13 @@ class MainViewController: UIViewController {
     @IBOutlet var labelsCollection: [UIView]!
     @IBOutlet weak var shareButton: UIButton!
     
-    
     var items:[Item] = []
     
     let bottomSheetVC = ScrollableBottomSheetViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerSettingsBundle()
         ModelManager.shared().addDelegate(self)
         UNUserNotificationCenter.current().delegate = self
     }
@@ -35,7 +35,6 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func updateButtonTap(_ sender: Any) {
-        scheduleNotifications()
         randomItems()
     }
     
@@ -96,9 +95,6 @@ class MainViewController: UIViewController {
     }
     
     func indexToString(_ item : Item?) -> String{
-        if items.isEmpty {
-            return "00"
-        }
         let maxIndex = String(items[0].index)
         guard let item = item else {return "00"}
         var index = "\(String(item.index))"
@@ -111,11 +107,17 @@ class MainViewController: UIViewController {
     func getRandomItem() -> Item? {
         return items.randomElement()
     }
+    
+    func registerSettingsBundle(){
+        let appDefaults = [String:AnyObject]()
+        UserDefaults.standard.register(defaults: appDefaults)
+    }
 }
 
 extension MainViewController: UNUserNotificationCenterDelegate{
     
     func scheduleNotifications() {
+        
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.getNotificationSettings {
             (settings) in
@@ -167,10 +169,13 @@ extension MainViewController: UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        scheduleNotifications()
         return completionHandler()
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         scheduleNotifications()
     }
     
