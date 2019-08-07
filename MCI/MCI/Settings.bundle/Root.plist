@@ -49,6 +49,10 @@
 			<string>switchDaily</string>
 			<key>DefaultValue</key>
 			<string>YES</string>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -59,6 +63,10 @@
 			<string>switchWeekly</string>
 			<key>DefaultValue</key>
 			<string>YES</string>
+			<key>TrueValue</key>
+			<true/>
+			<key>FalseValue</key>
+			<false/>
 		</dict>
 		<dict>
 			<key>Type</key>

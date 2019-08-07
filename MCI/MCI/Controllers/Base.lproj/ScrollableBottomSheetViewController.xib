@@ -79,7 +79,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aq8-QL-FgC">
                                                     <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" title="Remove"/>
+                                                    <state key="normal" title="Remover"/>
                                                     <connections>
                                                         <action selector="removeButton:" destination="-1" eventType="touchUpInside" id="UP4-Wa-OGB"/>
                                                     </connections>
@@ -98,7 +98,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uah-Af-eam">
                                                     <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" title="Update"/>
+                                                    <state key="normal" title="Atualizar"/>
                                                     <connections>
                                                         <action selector="updateButton:" destination="-1" eventType="touchUpInside" id="eQw-Cj-4mq"/>
                                                     </connections>
@@ -117,7 +117,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFL-T8-gfu">
                                                     <rect key="frame" x="0.0" y="10" width="132" height="35"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" title="Add"/>
+                                                    <state key="normal" title="Adicionar"/>
                                                     <connections>
                                                         <action selector="addButton:" destination="-1" eventType="touchUpInside" id="kSg-gT-UcS"/>
                                                     </connections>

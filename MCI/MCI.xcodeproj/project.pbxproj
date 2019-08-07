@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F22350C322E6492D002E7C39 /* DefaultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F22350C122E6492C002E7C39 /* DefaultTableViewCell.xib */; };
-		F22350C422E6492D002E7C39 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F22350C222E6492D002E7C39 /* ScrollableBottomSheetViewController.xib */; };
 		F2410EB622E104D7004BB84A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2410EB522E104D7004BB84A /* AppDelegate.swift */; };
 		F2410EB822E104D7004BB84A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2410EB722E104D7004BB84A /* MainViewController.swift */; };
 		F2410EBB22E104D7004BB84A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2410EB922E104D7004BB84A /* Main.storyboard */; };
@@ -24,12 +22,12 @@
 		F2A26D4422F77CA800A41C4B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F2A26D4322F77CA800A41C4B /* Settings.bundle */; };
 		F2A26D4622F7813F00A41C4B /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A26D4522F7813F00A41C4B /* SettingsBundleHelper.swift */; };
 		F2A26D4C22F7A52700A41C4B /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A26D4B22F7A52700A41C4B /* NotificationsManager.swift */; };
+		F2D23EC122FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D23EC322FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib */; };
+		F2D23ECA22FB4F340023CFC2 /* DefaultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D23ECC22FB4F340023CFC2 /* DefaultTableViewCell.xib */; };
 		F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F22350C122E6492C002E7C39 /* DefaultTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DefaultTableViewCell.xib; path = MCI/Controllers/DefaultTableViewCell.xib; sourceTree = SOURCE_ROOT; };
-		F22350C222E6492D002E7C39 /* ScrollableBottomSheetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScrollableBottomSheetViewController.xib; path = MCI/Controllers/ScrollableBottomSheetViewController.xib; sourceTree = SOURCE_ROOT; };
 		F2410EB222E104D7004BB84A /* MCI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2410EB522E104D7004BB84A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2410EB722E104D7004BB84A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +45,17 @@
 		F2A26D4322F77CA800A41C4B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = MCI/Settings.bundle; sourceTree = SOURCE_ROOT; };
 		F2A26D4522F7813F00A41C4B /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
 		F2A26D4B22F7A52700A41C4B /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		F2D23EBD22FB4E8F0023CFC2 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
+		F2D23EBE22FB4E960023CFC2 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
+		F2D23EC022FB4ED70023CFC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		F2D23EC222FB4F090023CFC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ScrollableBottomSheetViewController.xib; sourceTree = "<group>"; };
+		F2D23EC522FB4F0F0023CFC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ScrollableBottomSheetViewController.strings; sourceTree = "<group>"; };
+		F2D23EC722FB4F100023CFC2 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/ScrollableBottomSheetViewController.strings"; sourceTree = "<group>"; };
+		F2D23EC922FB4F120023CFC2 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/ScrollableBottomSheetViewController.strings"; sourceTree = "<group>"; };
+		F2D23ECB22FB4F340023CFC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DefaultTableViewCell.xib; sourceTree = "<group>"; };
+		F2D23ECE22FB4F390023CFC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DefaultTableViewCell.strings; sourceTree = "<group>"; };
+		F2D23ED022FB4F3A0023CFC2 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/DefaultTableViewCell.strings"; sourceTree = "<group>"; };
+		F2D23ED222FB4F3B0023CFC2 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/DefaultTableViewCell.strings"; sourceTree = "<group>"; };
 		F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,8 +117,8 @@
 			children = (
 				F2410EC122E104D9004BB84A /* LaunchScreen.storyboard */,
 				F2410EB922E104D7004BB84A /* Main.storyboard */,
-				F22350C222E6492D002E7C39 /* ScrollableBottomSheetViewController.xib */,
-				F22350C122E6492C002E7C39 /* DefaultTableViewCell.xib */,
+				F2D23EC322FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib */,
+				F2D23ECC22FB4F340023CFC2 /* DefaultTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,6 +186,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"en-GB",
+				"pt-BR",
 			);
 			mainGroup = F2410EA922E104D7004BB84A;
 			productRefGroup = F2410EB322E104D7004BB84A /* Products */;
@@ -195,10 +206,10 @@
 			files = (
 				F2410EC322E104D9004BB84A /* LaunchScreen.storyboard in Resources */,
 				F2410EC022E104D9004BB84A /* Assets.xcassets in Resources */,
-				F22350C422E6492D002E7C39 /* ScrollableBottomSheetViewController.xib in Resources */,
+				F2D23EC122FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib in Resources */,
 				F2410EBB22E104D7004BB84A /* Main.storyboard in Resources */,
 				F2A26D4422F77CA800A41C4B /* Settings.bundle in Resources */,
-				F22350C322E6492D002E7C39 /* DefaultTableViewCell.xib in Resources */,
+				F2D23ECA22FB4F340023CFC2 /* DefaultTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +242,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2410EBA22E104D7004BB84A /* Base */,
+				F2D23EBD22FB4E8F0023CFC2 /* en-GB */,
+				F2D23EBE22FB4E960023CFC2 /* pt-BR */,
+				F2D23EC022FB4ED70023CFC2 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -243,6 +257,30 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		F2D23EC322FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D23EC222FB4F090023CFC2 /* Base */,
+				F2D23EC522FB4F0F0023CFC2 /* en */,
+				F2D23EC722FB4F100023CFC2 /* en-GB */,
+				F2D23EC922FB4F120023CFC2 /* pt-BR */,
+			);
+			name = ScrollableBottomSheetViewController.xib;
+			path = MCI/Controllers;
+			sourceTree = SOURCE_ROOT;
+		};
+		F2D23ECC22FB4F340023CFC2 /* DefaultTableViewCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2D23ECB22FB4F340023CFC2 /* Base */,
+				F2D23ECE22FB4F390023CFC2 /* en */,
+				F2D23ED022FB4F3A0023CFC2 /* en-GB */,
+				F2D23ED222FB4F3B0023CFC2 /* pt-BR */,
+			);
+			name = DefaultTableViewCell.xib;
+			path = MCI/Controllers;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -250,6 +288,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -311,6 +350,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
