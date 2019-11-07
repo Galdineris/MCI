@@ -246,6 +246,7 @@ class ScrollableBottomSheetViewController: UIViewController{
         if selectedItems.count != 1 {return}
         if let updatedItem = selectedItems.popLast(),
             let indexPath = tableView.indexPathForSelectedRow {
+            searchController.isActive = false
             updateAlert(updatedItem: updatedItem)
             tableView.deselectRow(at: indexPath,
                                   animated: true)
@@ -269,9 +270,12 @@ class ScrollableBottomSheetViewController: UIViewController{
         }
         
         let saveUpdate: (UIAlertAction) -> Void = { [weak alert] (_) in
-            let textField = alert!.textFields![0]
-            self.updateItem(target: updatedItem,
-                            update: textField.text ?? "<Vazio>")
+            if let textField = alert?.textFields?[0], let textFieldText = textField.text{
+                if textFieldText != updatedItem.thing{
+                    self.updateItem(target: updatedItem,
+                                    update: textFieldText)
+                }
+            }
         }
         
         alert.addAction(UIAlertAction(title: "Cancel",

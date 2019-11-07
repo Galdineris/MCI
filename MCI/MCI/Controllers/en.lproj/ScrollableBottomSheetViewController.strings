@@ -1,0 +1,9 @@
+
+/* Class = "UIButton"; normalTitle = "Adicionar"; ObjectID = "GFL-T8-gfu"; */
+"GFL-T8-gfu.normalTitle" = "Add";
+
+/* Class = "UIButton"; normalTitle = "Atualizar"; ObjectID = "Uah-Af-eam"; */
+"Uah-Af-eam.normalTitle" = "Update";
+
+/* Class = "UIButton"; normalTitle = "Remover"; ObjectID = "aq8-QL-FgC"; */
+"aq8-QL-FgC.normalTitle" = "Remove";
