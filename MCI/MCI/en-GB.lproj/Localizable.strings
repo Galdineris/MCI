@@ -9,7 +9,7 @@
 "EditTitle" = "Update Item";
 "EditMessage" = "Bellow, review the text in the item 0";
 "NotificationTitle" = "Notifications";
-"NotificationMessage" = "One of this apps main functionalities depends on notifications. Would you like to enable them?";
+"NotificationMessage" = "One of this apps main functionalities depends on daily notifications. If you're interested in it, please enable notifications for this app in your device's settings.";
 "Yes" = "Yes";
 "No" = "No";
 "SeeMore" = "See More";

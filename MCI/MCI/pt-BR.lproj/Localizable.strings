@@ -9,7 +9,7 @@
 "EditTitle" = "Atualizar Item";
 "EditMessage" = "Revise abaixo o texto do item 0";
 "NotificationTitle" = "Notificações";
-"NotificationMessage" = "Uma das principais funcionalidades deste aplicativo envolve o envio de notificações. Você gostaria de habilitar as notificações deste aplicativo?";
+"NotificationMessage" = "Uma das principais funcionalidades deste aplicativo envolve o envio de notificações diárias. Caso tenha interesse, habilete-as nas configurações de seu aparelho.";
 "Yes" = "Sim";
 "No" = "Não";
 "SeeMore" = "Veja Mais";

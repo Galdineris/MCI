@@ -31,6 +31,7 @@ class MainViewController: UIViewController {
         addBottomSheetView()
         getItems()
         randomItems()
+        scheduleNotifications()
     }
 
     @IBAction func updateButtonTap(_ sender: Any) {
@@ -121,24 +122,19 @@ extension MainViewController: UNUserNotificationCenterDelegate {
         notificationCenter.getNotificationSettings { [weak self] settings in
             guard let self = self else { return }
             switch settings.authorizationStatus {
-            case .authorized:
+            case .authorized, .provisional:
                 notificationCenter.add(self.dailyNotifications(), withCompletionHandler: { (error) in
                     if let uError = error {
                         print("Error in registering daily notification: \(uError)")
                     }
                 })
-            case .denied:
-                self.notificationsAlert()
-            case .provisional:
-                notificationCenter.add(self.dailyNotifications(), withCompletionHandler: { (error) in
-                    if let uError = error {
-                        print("Error in registering daily notification: \(uError)")
-                    }
-                })
+            case .notDetermined:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "helpSegue", sender: nil)
+                }
             default:
-                self.requestNotificationsPermission()
+                print("notifications disabled")
             }
-
         }
     }
 
@@ -156,7 +152,6 @@ extension MainViewController: UNUserNotificationCenterDelegate {
         let date = DateComponents(hour: 08, minute: 30)
         let trigger = UNCalendarNotificationTrigger(dateMatching: date,
                                                     repeats: false)
-//        let trigger =   UNTimeIntervalNotificationTrigger(timeInterval: 3.0, repeats: false)
 
         let request = UNNotificationRequest(identifier: requestIdentifier,
                                             content: content,
@@ -175,56 +170,6 @@ extension MainViewController: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping
         (UNNotificationPresentationOptions) -> Void) {
         scheduleNotifications()
-    }
-
-    func requestNotificationsPermission() {
-        let notificationCenter = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        notificationCenter.requestAuthorization(options: options) { didAllow, _ in
-            if !didAllow {
-                self.notificationsAlert()
-            } else {
-                let notificationAlertSeeMore = NSLocalizedString("SeeMore", comment: "Alert See More Option")
-                let action1 = UNNotificationAction(identifier: "action1",
-                                                   title: notificationAlertSeeMore,
-                                                   options: [.foreground])
-
-                let category = UNNotificationCategory(identifier: "dailyCategory",
-                                                      actions: [action1],
-                                                      intentIdentifiers: [],
-                                                      options: [])
-
-                notificationCenter.setNotificationCategories([category])
-            }
-        }
-    }
-
-    func notificationsAlert() {
-        let notificationsAlertTitle = NSLocalizedString("NotificationsTitle", comment: "Notifications alert Title")
-        let notificationsAlertBody = NSLocalizedString("NotificationsMessage", comment: "Notifications alert Message")
-        let alertController = UIAlertController(title: notificationsAlertTitle,
-                                                message: notificationsAlertBody,
-                                                preferredStyle: .alert)
-        let notificationsAlertYes = NSLocalizedString("Yes", comment: "Alert Yes option")
-        let notificationsAlertNo = NSLocalizedString("No", comment: "Alert No option")
-        let cancelAction = UIAlertAction(title: notificationsAlertNo, style: .default, handler: nil)
-        alertController.addAction(cancelAction)
-        let settingsAction = UIAlertAction(title: notificationsAlertYes, style: .default) { (_) -> Void in
-
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)") // Prints true
-                })
-            }
-        }
-        alertController.addAction(settingsAction)
-        self.present(alertController,
-                     animated: true,
-                     completion: nil)
     }
 }
 

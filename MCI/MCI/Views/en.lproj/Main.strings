@@ -1,3 +1,4 @@
+/* Main View */
 
 /* Class = "UILabel"; text = "Configurações"; ObjectID = "31I-gs-IQY"; */
 "31I-gs-IQY.text" = "Settings";
@@ -22,3 +23,28 @@
 
 /* Class = "UILabel"; text = "Viver"; ObjectID = "rYz-Je-RGV"; */
 "rYz-Je-RGV.text" = "Life";
+
+/* Help View */
+
+/* Class = "UILabel"; text = "minhas"; ObjectID = "zyG-UI-0y9"; */
+"zyG-UI-0y9.text" = "my";
+
+/* Class = "UILabel"; text = "coisas"; ObjectID = "rw7-9J-Wgk"; */
+"rw7-9J-Wgk.text" = "amazing";
+
+/* Class = "UILabel"; text = "incríveis"; ObjectID = "n0E-wZ-axq"; */
+"n0E-wZ-axq.text" = "things";
+
+
+/* Class = "UILabel"; text = "Hello"; ObjectID = "Z4g-kx-GcD"; */
+"Z4g-kx-GcD.text" = "Hi!
+
+This is MCI, a simple gratitude journaling.
+
+To add or search an item, touch the search bar on the main screen. To update or remove items, select them in the item list and touch the selected option.
+
+This app was partillay inspired by the play 'Every Brilliant Thing' written by Duncan Macmillan.";
+
+
+/* Class = "UIButton"; text = "Notifications Settings"; ObjectID = "acY-Eb-x8M"; */
+"acY-Eb-x8M.text" = "Notifications Settings";

@@ -1,3 +1,4 @@
+/* Main View */
 
 /* Class = "UILabel"; text = "Configurações"; ObjectID = "31I-gs-IQY"; */
 "31I-gs-IQY.text" = "Configurações";
@@ -22,3 +23,28 @@
 
 /* Class = "UILabel"; text = "Viver"; ObjectID = "rYz-Je-RGV"; */
 "rYz-Je-RGV.text" = "Viver";
+
+/* Help View */
+
+/* Class = "UILabel"; text = "minhas"; ObjectID = "zyG-UI-0y9"; */
+"zyG-UI-0y9.text" = "minhas";
+
+/* Class = "UILabel"; text = "coisas"; ObjectID = "rw7-9J-Wgk"; */
+"rw7-9J-Wgk.text" = "coisas";
+
+/* Class = "UILabel"; text = "incríveis"; ObjectID = "n0E-wZ-axq"; */
+"n0E-wZ-axq.text" = "incríveis";
+
+
+/* Class = "UILabel"; text = "Hello"; ObjectID = "Z4g-kx-GcD"; */
+"Z4g-kx-GcD.text" = "Olá!
+
+Este é o MCI, um gratitude journaling simples.
+
+Para adicionar ou buscar um item, toque na barra de busca da tela principal. Para alterar ou remover itens, selecione-os na lista e toque na opção desejada.
+
+Este app foi parcialmente inspirado pela peça 'Todas As Coisas Que Brilham' escrita por Duncan Macmillan.";
+
+
+/* Class = "UIButton"; text = "Notifications Settings"; ObjectID = "acY-Eb-x8M"; */
+"acY-Eb-x8M.text" = "Configurações de Notificação";
