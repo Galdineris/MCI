@@ -243,8 +243,10 @@ class ScrollableBottomSheetViewController: UIViewController {
     }
 
     func updateAlert(updatedItem: Item) {
-        let alert = UIAlertController(title: "Atualizar Item",
-                                      message: "Revise abaixo o texto do item 0\(updatedItem.index)",
+        let title = NSLocalizedString("EditTitle", comment: "Edit alert title")
+        let message = NSLocalizedString("EditMessage", comment: "Edit alert message")
+        let alert = UIAlertController(title: title,
+                                      message: message + "\(updatedItem.index)",
             preferredStyle: .alert)
 
         alert.addTextField { (textField) in
@@ -331,7 +333,7 @@ class ScrollableBottomSheetViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
 
         let scb = searchController.searchBar
-        scb.placeholder = "Adicione ou Busque um Item"
+        scb.placeholder = NSLocalizedString("Search", comment: "Search bar placeholder text")
         scb.barStyle = .blackOpaque
         scb.tintColor = UIColor.orange
         scb.keyboardAppearance = UIKeyboardAppearance.dark

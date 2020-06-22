@@ -148,7 +148,7 @@ extension MainViewController: UNUserNotificationCenterDelegate {
         do {
             let randomItem = self.getRandomItem()
             content.body = self.indexToString(randomItem)
-            content.title = randomItem?.thing ?? "Viver"
+            content.title = randomItem?.thing ?? NSLocalizedString("ToLive", comment: "Default Item Name")
         }
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = "dailyCategory"
@@ -184,8 +184,9 @@ extension MainViewController: UNUserNotificationCenterDelegate {
             if !didAllow {
                 self.notificationsAlert()
             } else {
+                let notificationAlertSeeMore = NSLocalizedString("SeeMore", comment: "Alert See More Option")
                 let action1 = UNNotificationAction(identifier: "action1",
-                                                   title: "Ver mais",
+                                                   title: notificationAlertSeeMore,
                                                    options: [.foreground])
 
                 let category = UNNotificationCategory(identifier: "dailyCategory",
@@ -199,17 +200,16 @@ extension MainViewController: UNUserNotificationCenterDelegate {
     }
 
     func notificationsAlert() {
-        let notificationsAlertTitle = "Notificações"
-        let notificationsAlertBody = "Uma das principais funcionalidades "
-        + "deste aplicativo envolve o envio de notificações. "
-        + "Você gostaria de habilitar as notificações deste aplicativo?"
+        let notificationsAlertTitle = NSLocalizedString("NotificationsTitle", comment: "Notifications alert Title")
+        let notificationsAlertBody = NSLocalizedString("NotificationsMessage", comment: "Notifications alert Message")
         let alertController = UIAlertController(title: notificationsAlertTitle,
                                                 message: notificationsAlertBody,
                                                 preferredStyle: .alert)
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        let notificationsAlertYes = NSLocalizedString("Yes", comment: "Alert Yes option")
+        let notificationsAlertNo = NSLocalizedString("No", comment: "Alert No option")
+        let cancelAction = UIAlertAction(title: notificationsAlertNo, style: .default, handler: nil)
         alertController.addAction(cancelAction)
-        let settingsAction = UIAlertAction(title: "Sim", style: .default) { (_) -> Void in
+        let settingsAction = UIAlertAction(title: notificationsAlertYes, style: .default) { (_) -> Void in
 
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                 return
