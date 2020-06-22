@@ -26,32 +26,38 @@ class SettingsBundleHelper {
         updateNotificationSettings()
         NotificationsManager.scheduleNotifications()
     }
-    
+
     class func setVersionAndBuildNumber() {
-        let version: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        UserDefaults.standard.set(version, forKey: SettingsBundleKeys.version)
-        let build: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
-        UserDefaults.standard.set(build, forKey: SettingsBundleKeys.build)
+        if let version: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
+            let build: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
+            UserDefaults.standard.set(version, forKey: SettingsBundleKeys.version)
+            UserDefaults.standard.set(build, forKey: SettingsBundleKeys.build)
+        }
     }
-    
-    class func getHours(hours:Float, ampm:Float) -> Int {
+
+    class func getHours(hours: Float, ampm: Float) -> Int {
         var newHours = hours
-        if ampm == 1{
+        if ampm == 1 {
             newHours += 12
         }
         return Int(newHours)
     }
-    
+
     class func updateNotificationSettings() {
-        NotificationsManager.NotificationsSettings.switchDaily = UserDefaults.standard.bool(forKey: SettingsBundleKeys.switchDaily)
-        NotificationsManager.NotificationsSettings.switchWeekly = UserDefaults.standard.bool(forKey: SettingsBundleKeys.switchWeekly)
-        NotificationsManager.NotificationsSettings.dailyHours = getHours(hours: UserDefaults.standard.float(forKey: SettingsBundleKeys.dailyHours),
-                                                                          ampm: UserDefaults.standard.float(forKey: SettingsBundleKeys.dailyAmpm))
-        NotificationsManager.NotificationsSettings.dailyMinutes = Int(UserDefaults.standard.float(forKey: SettingsBundleKeys.dailyMinutes))
-        NotificationsManager.NotificationsSettings.weeklyHours = getHours(hours: UserDefaults.standard.float(forKey: SettingsBundleKeys.weeklyHours),
-                                                                         ampm: UserDefaults.standard.float(forKey: SettingsBundleKeys.weeklyAmpm))
-        NotificationsManager.NotificationsSettings.weeklyMinutes = Int(UserDefaults.standard.float(forKey: SettingsBundleKeys.dailyMinutes))
-        NotificationsManager.NotificationsSettings.weekday = UserDefaults.standard.integer(forKey: SettingsBundleKeys.weekday)
+        let settings = NotificationsManager.NotificationsSettings.self
+        let userStandard = UserDefaults.standard.self
+
+        settings.switchDaily = userStandard.bool(forKey: SettingsBundleKeys.switchDaily)
+        settings.switchWeekly = userStandard.bool(forKey: SettingsBundleKeys.switchWeekly)
+
+        settings.dailyHours = getHours(hours: userStandard.float(forKey: SettingsBundleKeys.dailyHours),
+                                       ampm: userStandard.float(forKey: SettingsBundleKeys.dailyAmpm))
+        settings.dailyMinutes = Int(userStandard.float(forKey: SettingsBundleKeys.dailyMinutes))
+
+        settings.weeklyHours = getHours(hours: userStandard.float(forKey: SettingsBundleKeys.weeklyHours),
+                                        ampm: userStandard.float(forKey: SettingsBundleKeys.weeklyAmpm))
+        settings.weeklyMinutes = Int(userStandard.float(forKey: SettingsBundleKeys.dailyMinutes))
+        settings.weekday = userStandard.integer(forKey: SettingsBundleKeys.weekday)
     }
 
 }

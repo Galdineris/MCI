@@ -1,50 +1,50 @@
 /* Main View */
 
 /* Class = "UILabel"; text = "Configurações"; ObjectID = "31I-gs-IQY"; */
-"31I-gs-IQY.text" = "Configurações";
+"31I-gs-IQY.text" = "Settings";
 
 /* Class = "UILabel"; text = "00"; ObjectID = "G0K-BJ-6Qj"; */
 "G0K-BJ-6Qj.text" = "00";
 
 /* Class = "UILabel"; text = "incríveis"; ObjectID = "L6G-bI-ouG"; */
-"L6G-bI-ouG.text" = "incríveis";
+"L6G-bI-ouG.text" = "things";
 
 /* Class = "UILabel"; text = "minhas"; ObjectID = "UUa-k8-n8i"; */
-"UUa-k8-n8i.text" = "minhas";
+"UUa-k8-n8i.text" = "my";
 
 /* Class = "UILabel"; text = "Começar"; ObjectID = "UYP-ms-aps"; */
-"UYP-ms-aps.text" = "Começar";
+"UYP-ms-aps.text" = "Begin";
 
 /* Class = "UILabel"; text = "Olá"; ObjectID = "hrb-Nc-J9s"; */
-"hrb-Nc-J9s.text" = "Olá";
+"hrb-Nc-J9s.text" = "Hello";
 
 /* Class = "UILabel"; text = "coisas"; ObjectID = "mKN-68-brc"; */
-"mKN-68-brc.text" = "coisas";
+"mKN-68-brc.text" = "amazing";
 
 /* Class = "UILabel"; text = "Viver"; ObjectID = "rYz-Je-RGV"; */
-"rYz-Je-RGV.text" = "Viver";
+"rYz-Je-RGV.text" = "Life";
 
 /* Help View */
 
 /* Class = "UILabel"; text = "minhas"; ObjectID = "zyG-UI-0y9"; */
-"zyG-UI-0y9.text" = "minhas";
+"zyG-UI-0y9.text" = "my";
 
 /* Class = "UILabel"; text = "coisas"; ObjectID = "rw7-9J-Wgk"; */
-"rw7-9J-Wgk.text" = "coisas";
+"rw7-9J-Wgk.text" = "amazing";
 
 /* Class = "UILabel"; text = "incríveis"; ObjectID = "n0E-wZ-axq"; */
-"n0E-wZ-axq.text" = "incríveis";
+"n0E-wZ-axq.text" = "things";
 
 
 /* Class = "UILabel"; text = "Hello"; ObjectID = "Z4g-kx-GcD"; */
-"Z4g-kx-GcD.text" = "Olá!
+"Z4g-kx-GcD.text" = "Hi!
 
-Este é o MCI, um gratitude journaling simples.
+This is MCI, a simple gratitude journaling.
 
-Para adicionar ou buscar um item, toque na barra de busca da tela principal. Para alterar ou remover itens, selecione-os na lista e toque na opção desejada.
+To add or search an item, touch the search bar on the main screen. To update or remove items, select them in the item list and touch the selected option.
 
-Este app foi parcialmente inspirado pela peça 'Todas As Coisas Que Brilham' escrita por Duncan Macmillan.";
+This app was partillay inspired by the play 'Every Brilliant Thing' written by Duncan Macmillan.";
 
 
 /* Class = "UIButton"; text = "Notifications Settings"; ObjectID = "acY-Eb-x8M"; */
-"acY-Eb-x8M.text" = "Configurações de Notificação";
+"acY-Eb-x8M.text" = "Notifications Settings";

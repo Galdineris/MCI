@@ -10,25 +10,23 @@
 import Foundation
 import CoreData
 
-
 public class Item: NSManagedObject {
-    func feed(thing: String, index:Int16) {
+    func feed(thing: String, index: Int16) {
         self.dateAdded = Date.init() as NSDate
         self.thing = thing.trimmingCharacters(in: .whitespacesAndNewlines)
         self.index = index
     }
-    
-    func modifyThing(newThing: String) -> Bool{
-        if (newThing.filter{ !$0.isNewline && !$0.isWhitespace }) == ""{
+
+    func modifyThing(newThing: String) -> Bool {
+        if (newThing.filter { !$0.isNewline && !$0.isWhitespace }) == "" {
             return false
         }
         self.thing = newThing
         return true
     }
-    
-    func modifyIndex(newIndex: Int16){
+
+    func modifyIndex(newIndex: Int16) {
         self.index = newIndex
     }
 
 }
-

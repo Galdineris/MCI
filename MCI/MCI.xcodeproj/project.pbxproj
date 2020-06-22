@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F203551424A038A0006D4C92 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F203551624A038A0006D4C92 /* Localizable.strings */; };
+		F203551A24A0400C006D4C92 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F203551924A0400C006D4C92 /* HelpViewController.swift */; };
 		F2410EB622E104D7004BB84A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2410EB522E104D7004BB84A /* AppDelegate.swift */; };
 		F2410EB822E104D7004BB84A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2410EB722E104D7004BB84A /* MainViewController.swift */; };
 		F2410EBB22E104D7004BB84A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2410EB922E104D7004BB84A /* Main.storyboard */; };
@@ -28,6 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F203551524A038A0006D4C92 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F203551724A038A4006D4C92 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F203551824A038A4006D4C92 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F203551924A0400C006D4C92 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		F2410EB222E104D7004BB84A /* MCI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2410EB522E104D7004BB84A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2410EB722E104D7004BB84A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +100,7 @@
 				F2410ED222E10BBE004BB84A /* Controllers */,
 				F293375F22F4C02B009DFC80 /* Subclasses */,
 				F2410EB522E104D7004BB84A /* AppDelegate.swift */,
+				F203551624A038A0006D4C92 /* Localizable.strings */,
 				F2A26D4322F77CA800A41C4B /* Settings.bundle */,
 				F2410EC422E104D9004BB84A /* Info.plist */,
 				F2410EBF22E104D9004BB84A /* Assets.xcassets */,
@@ -106,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				F2410EB722E104D7004BB84A /* MainViewController.swift */,
+				F203551924A0400C006D4C92 /* HelpViewController.swift */,
 				F2410ED422E231FA004BB84A /* ScrollableBottomSheetViewController.swift */,
 				F2D532D022E24C0200E0800A /* DefaultTableViewCell.swift */,
 			);
@@ -154,6 +162,7 @@
 				F2410EAE22E104D7004BB84A /* Sources */,
 				F2410EAF22E104D7004BB84A /* Frameworks */,
 				F2410EB022E104D7004BB84A /* Resources */,
+				F2CDE01D237455D50039A314 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -207,6 +216,7 @@
 				F2410EC322E104D9004BB84A /* LaunchScreen.storyboard in Resources */,
 				F2410EC022E104D9004BB84A /* Assets.xcassets in Resources */,
 				F2D23EC122FB4F090023CFC2 /* ScrollableBottomSheetViewController.xib in Resources */,
+				F203551424A038A0006D4C92 /* Localizable.strings in Resources */,
 				F2410EBB22E104D7004BB84A /* Main.storyboard in Resources */,
 				F2A26D4422F77CA800A41C4B /* Settings.bundle in Resources */,
 				F2D23ECA22FB4F340023CFC2 /* DefaultTableViewCell.xib in Resources */,
@@ -214,6 +224,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F2CDE01D237455D50039A314 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F2410EAE22E104D7004BB84A /* Sources */ = {
@@ -223,6 +254,7 @@
 				F293375B22F4B8D1009DFC80 /* Item+CoreDataProperties.swift in Sources */,
 				F293375A22F4B8D1009DFC80 /* Item+CoreDataClass.swift in Sources */,
 				F2A26D4C22F7A52700A41C4B /* NotificationsManager.swift in Sources */,
+				F203551A24A0400C006D4C92 /* HelpViewController.swift in Sources */,
 				F2410ED622E231FA004BB84A /* ScrollableBottomSheetViewController.swift in Sources */,
 				F2848CB122F4C3E200D75EA7 /* ModelStatus.swift in Sources */,
 				F2D532D222E24C0200E0800A /* DefaultTableViewCell.swift in Sources */,
@@ -238,6 +270,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		F203551624A038A0006D4C92 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F203551524A038A0006D4C92 /* en */,
+				F203551724A038A4006D4C92 /* en-GB */,
+				F203551824A038A4006D4C92 /* pt-BR */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		F2410EB922E104D7004BB84A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -413,6 +455,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Galdineris.MCI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -431,6 +474,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Galdineris.MCI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

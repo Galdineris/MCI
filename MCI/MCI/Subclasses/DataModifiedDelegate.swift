@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol DataModifiedDelegate{
-    func DataModified()
+public protocol DataModifiedDelegate: class {
+    func dataModified()
 }
